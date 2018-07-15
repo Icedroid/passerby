@@ -1,0 +1,55 @@
+<?php
+return [
+    'adminEmail' => 'admin@example.com',
+
+    'phoneConfig' => [
+        'car'=>[
+            [
+                'id'=>1,
+                'name'=>'静态体验',
+                'items'=>[
+                    [
+                        'id'=>11,
+                        'name'=>'音箱体验',
+                        'items'=>[
+                            [
+                               'id'=>12,
+                               'name'=>'真实音效体验'     
+                            ],    
+                            [
+                               'id'=>13,
+                               'name'=>'环绕音效体验'     
+                            ],    
+                            [
+                               'id'=>14,
+                               'name'=>'高低音效体验'     
+                            ],    
+                        ],
+                    ],
+                    [
+                        'id'=>15,
+                        'name'=>'空调体验',
+                    ],
+                    [
+                        'id'=>16,
+                        'name'=>'降噪体验',
+                    ],
+                ]
+            ],
+            [
+                'id'=>2,
+                'name'=>'动态体验',
+                'items'=>[
+                    [
+                        'id'=>21,
+                        'name'=>'底盘悬挂体验',
+                    ],
+                ],
+            ],
+        ],
+        'startup'=>[
+            'uploads/car/start_1.png',
+            'uploads/car/start_2.png',
+        ]
+    ]
+];

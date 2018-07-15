@@ -1,0 +1,45 @@
+.ui-datepicker .ui-datepicker-buttonpane button.ui-datepicker-current 
+{
+	margin-left:40%;
+}
+#ui-datepicker-div
+{
+	font-size:100%;
+	color:#85b5d9;
+	background:#fcfdfd;
+	width:180px;
+}
+.ui-state-default,
+.ui-widget-content .ui-state-default,
+.ui-widget-header .ui-state-default
+{
+	background:#dfeffc;
+	color:#2e6e9e;
+	text-align:center;
+}
+
+.ui-state-default:hover{
+	color: #000;
+	background: #fbec88;
+}
+
+.ui-datepicker td {
+	border: 0;
+	padding: 1px;
+	height: 25px;
+}
+
+.ui-datepicker th {
+	padding: .7em .3em;
+	text-align: center;
+	font-weight: bold;
+	border: 0;
+	height: 25px;
+}
+
+.ui-datepicker-div {
+	font-size: 70%;
+	color: #85b5d9;
+	background: #fcfdfd;
+	width: 210px;
+}
