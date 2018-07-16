@@ -61,7 +61,7 @@ AppAsset::register($this);
                     </span>
                 </span>
                 <span>
-                    服务热线：0512-66578441
+                    服务热线：010-85251051
                 </span>
             </div>
             <!--<div class="menu-container">
@@ -78,7 +78,7 @@ AppAsset::register($this);
             <div id="top-menu_1">
                 <span class="nav-search"><i class="fa fa-search"></i></span>
                 <span class="nav-search_1"><i class="fa fa-navicon"></i></span>
-                <hgroup class="logo-site" style="margin-top: -10px;">
+                <hgroup class="logo-site" style="margin-top: 10px;">
                     <h1 class="site-title">
                         <a href="<?= yii::$app->getHomeUrl() ?>"><img src="<?=yii::$app->getRequest()->getBaseUrl()?>/static/images/logo.png" alt="<?= yii::$app->feehi->website_title ?>"></a>
                     </h1>
@@ -131,9 +131,9 @@ AppAsset::register($this);
 <footer class="footer">
     <div class="footer-inner">
         <p>
-            苏州淘金企业管理咨询有限公司
+            汇通天下(北京)金融信息服务有限公司
 
-            服务热线：0512-66578441
+            服务热线：010-85251051
 
             <a href=" http://www.miitbeian.gov.cn/" target="_blank"><?=yii::$app->feehi->website_icp?></a>
 
@@ -144,7 +144,7 @@ AppAsset::register($this);
             </select>-->
         </p>
        <!-- <p><?/*=yii::$app->feehi->website_icp*/?> Powered by Feehi CMS <a title="飞嗨" target="_blank" href="http://blog.feehi.com">飞嗨</a></p>-->
-        <p>地址：东吴南路125号名宇商务广场3栋1008室</p>
+        <p>地址：北京市海淀区八里庄路62号院1号楼12层1238</p>
     </div>
 </footer>
 

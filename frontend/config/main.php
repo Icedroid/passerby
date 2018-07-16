@@ -11,6 +11,7 @@ return [
     'basePath' => dirname(__DIR__),
     'bootstrap' => ['log'],
     'controllerNamespace' => 'frontend\controllers',
+    // 'catchAll' => ['site/offline'],
     'components' => [
         'user' => [
             'identityClass' => common\models\User::className(),
@@ -57,7 +58,8 @@ return [
                 //'detail/<id:\d+>' => 'site/detail?id=$id',
                 //'post/22'=>'site/detail',
                 //'<controller:detail>/<id:\d+>' => '<controller>/index',
-                '' => 'article/index',
+                // '' => 'article/index',
+                '' => 'site/doc',
                 '<page:\d+>' => 'article/index',
                 'login' => 'site/login',
                 'signup' => 'site/signup',

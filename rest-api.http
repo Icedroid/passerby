@@ -1,0 +1,108 @@
+# For a quick start check out our HTTP Requests collection (Tools|HTTP Client|Open HTTP Requests Collection).
+#
+# Following HTTP Request Live Templates are available:
+# * 'gtrp' and 'gtr' create a GET request with or without query parameters;
+# * 'ptr' and 'ptrp' create a POST request with a simple or parameter-like body;
+# * 'mptr' and 'fptr' create a POST request to submit a form with a text or file field (multipart/form-data);
+
+OPTIONS  http://passerby.cn/api/v1/users
+Accept: application/json
+{
+}
+
+###
+
+GET http://passerby.cn/api/v1/users?access-token=59a1af448c3cd7f250e0635c39a05a5a
+Accept: application/json
+
+###
+
+GET http://passerby.cn/api/v1/users/6?access-token=59a1af448c3cd7f250e0635c39a05a5a
+Accept: application/json
+
+###
+
+POST http://passerby.cn/api/v1/users
+Content-Type: application/json
+
+{
+  "access_token": "59a1af448c3cd7f250e0635c39a05a5a",
+  "username": "test2",
+  "nickname": "小猪费奇2",
+  "avatar": "uploads/3.png",
+  "gender": 1,
+  "birthday": 1992,
+  "education": 0,
+  "marriage": 1,
+  "job": "工程师"
+}
+
+###
+
+PUT http://passerby.cn/api/v1/users/6?access-token=59a1af448c3cd7f250e0635c39a05a5a
+Content-Type: application/json
+
+{
+  "access_token": "testaf448c3cd7f250e0635c39a0test",
+  "username": "test",
+  "nickname": "小猪费奇",
+  "avatar": "uploads/1.png",
+  "gender": 2,
+  "birthday": 2002,
+  "education": 3,
+  "marriage": 2,
+  "job": "IT"
+}
+
+###
+
+GET http://passerby.cn/api/v1/user-collects?access-token=testaf448c3cd7f250e0635c39a0test
+Accept: application/json
+
+###
+
+POST http://passerby.cn/api/v1/user-collects?access-token=testaf448c3cd7f250e0635c39a0test
+Content-Type: application/json
+
+{
+  "uid": 7,
+  "remark": "测试"
+}
+
+###
+
+PUT http://passerby.cn/api/v1/user-collects/6?access-token=testaf448c3cd7f250e0635c39a0test
+Content-Type: application/json
+
+{
+  "remark": "测试2"
+}
+
+###
+
+GET http://passerby.cn/api/v1/user-experiences?access-token=testaf448c3cd7f250e0635c39a0test
+Accept: application/json
+
+###
+
+POST http://passerby.cn/api/v1/user-experiences?access-token=testaf448c3cd7f250e0635c39a0test
+Content-Type: application/json
+
+{
+  "start_date": 20170101,
+  "end_date": 20180101,
+  "content": "这是一条很长长的工作经历"
+}
+
+###
+
+PUT http://passerby.cn/api/v1/user-experiences/2?access-token=testaf448c3cd7f250e0635c39a0test
+Content-Type: application/json
+
+{
+  "start_date": 20170101,
+  "end_date": 20180101,
+  "content": "这是一条很长长的工作经历"
+}
+
+###

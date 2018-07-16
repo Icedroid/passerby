@@ -6,7 +6,7 @@ $params = array_merge(
 );
 
 return [
-    'id' => 'Chevr API',
+    'id' => 'Passerby API',
     'basePath' => dirname(__DIR__),
 //    'language' => 'zh-CN',//默认语言
     'timeZone' => 'Asia/Shanghai',//默认时区
@@ -19,7 +19,7 @@ return [
     'components' => [
         'user' => [
             'class' => yii\web\User::className(),
-            'identityClass' => api\modules\v1\models\CarAgency::className(),
+            'identityClass' => api\modules\v1\models\User::className(),
             'enableSession' => false,
             'loginUrl' => null,
         ],
@@ -55,13 +55,10 @@ return [
             'showScriptName' => false,
             'rules' => [
                 '' => 'v1/default/index',
-                'v1/login' => 'v1/default/login',
-                'v1/config' => 'v1/default/config',
-                'v1/feedback' => 'v1/default/feedback',
-                'v1/experience' => 'v1/default/experience',
+//                'v1/login' => 'v1/default/login',
                 [
                     'class' => yii\rest\UrlRule::className(),
-                    'controller' => ['v1/car', 'v1/user', 'v1/article'],
+                    'controller' => ['v1/user', 'v1/user-collect', 'v1/user-experience'],
                 ],
             ],
         ],
@@ -87,7 +84,7 @@ return [
                 if ($response->data !== null) {
                     $data = $response->data;
                     $response->data = [
-                        'code' => $response->isSuccessful ? 1 : $response->statusCode,
+                        'code' => $response->isSuccessful ? 200 : $response->statusCode,
                         'msg' => $response->statusText,
                         'data' => $data,
                     ];

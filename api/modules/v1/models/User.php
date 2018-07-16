@@ -9,20 +9,42 @@
 namespace api\modules\v1\models;
 
 use Yii;
+use yii\web\IdentityInterface;
 
-class User extends \common\models\User
+class User extends \common\models\User implements IdentityInterface
 {
 
     public function fields()
     {
         $fields = parent::fields();
-        unset($fields['auth_key'], $fields['password_hash'], $fields['password_reset_token']);
+        unset($fields['auth_key'], $fields['status'], $fields['created_at'], $fields['updated_at']);
         return $fields;
+    }
+
+    public function beforeValidate()
+    {
+        $requestParams = Yii::$app->getRequest()->getBodyParams();
+        if (empty($requestParams)) {
+            $requestParams = Yii::$app->getRequest()->getQueryParams();
+        }
+        if(isset($requestParams['access_token'])){
+            $this->auth_key =  $requestParams['access_token'];
+        }
+
+        return parent::beforeValidate();
     }
 
     public function generateAccessToken()
     {
-        $this->access_token = Yii::$app->security->generateRandomString();
+        $this->auth_key = Yii::$app->security->generateRandomString();
+    }
+
+    /**
+     * @inheritdoc
+     */
+    public static function findIdentity($id)
+    {
+        return static::findOne(['id' => $id, 'status' => self::STATUS_ACTIVE]);
     }
 
     /**
@@ -30,6 +52,30 @@ class User extends \common\models\User
      */
     public static function findIdentityByAccessToken($token, $type = null)
     {
-        return static::findOne(['access_token' => $token]);
+        return static::findOne(['auth_key' => $token]);
+    }
+
+    /**
+     * @inheritdoc
+     */
+    public function getId()
+    {
+        return $this->getPrimaryKey();
+    }
+
+    /**
+     * @inheritdoc
+     */
+    public function getAuthKey()
+    {
+        return $this->auth_key;
+    }
+
+    /**
+     * @inheritdoc
+     */
+    public function validateAuthKey($authKey)
+    {
+        return $this->getAuthKey() === $authKey;
     }
 }

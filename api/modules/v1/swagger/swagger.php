@@ -5,7 +5,7 @@ namespace api\modules\v1\swagger;
 /**
  * @SWG\Swagger(
  *     schemes={"http"},
- *     host="chevr.cn",
+ *     host="passerby.cn",
  *     basePath="/api/v1",
  *     @SWG\Info(
  *         version="1.0.0",
@@ -17,8 +17,8 @@ namespace api\modules\v1\swagger;
  *
  *
  * @SWG\Tag(
- *   name="api",
- *   description="所有接口列表",
+ *   name="user",
+ *   description="用户接口列表",
  *   @SWG\ExternalDocumentation(
  *     description="Find out more about our store",
  *     url="http://swagger.io"

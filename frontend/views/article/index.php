@@ -25,14 +25,14 @@ $this->title = yii::$app->feehi->website_title;
 ?>
 <div class="content-wrap">
     <div class="content">
-        <div class="slick_bor">
-            <?= ScrollPicView::widget([
+       <!-- <div class="slick_bor">
+            <?/*= ScrollPicView::widget([
                 'banners' => Options::getBannersByType('index'),
-            ]) ?>
+            ]) */?>
             <div class="ws_shadow"></div>
-        </div>
-        <div class="daodu clr">
-            <?= ArticleListView::widget([
+        </div>-->
+ <!--       <div class="daodu clr">
+            <?/*= ArticleListView::widget([
                 'dataProvider' => new ArrayDataProvider([
                     'allModels' => Article::find()->limit(1)->where(['flag_headline'=>1])->limit(4)->with('category')->orderBy("sort asc")->all(),
                 ]),
@@ -55,8 +55,8 @@ $this->title = yii::$app->feehi->website_title;
                 'itemOptions' => ['tag'=>'li'],
                 'thumbWidth' => 168,
                 'thumbHeight' => 112,
-            ]) ?>
-        </div>
+            ]) */?>
+        </div>-->
 
         <header class="archive-header"><h1><?=$type?></h1></header>
         <?= ArticleListView::widget([

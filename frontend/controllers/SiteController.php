@@ -56,6 +56,26 @@ class SiteController extends Controller
         ];
     }
 
+    public function actions()
+    {
+        return [
+            'doc' => [
+                'class' => 'light\swagger\SwaggerAction',
+                'restUrl' => \yii\helpers\Url::to(['/site/api'], true),
+            ],
+            'api' => [
+                'class' => 'light\swagger\SwaggerApiAction',
+                'scanDir' => [
+                    Yii::getAlias('@api/modules/v1/swagger'),
+                    Yii::getAlias('@api/modules/v1/controllers'),
+                    Yii::getAlias('@api/modules/v1/models'),
+                ],
+//                'api_key' => 'test'
+            ],
+        ];
+    }
+
+
     /**
      * Logs in a user.
      *
