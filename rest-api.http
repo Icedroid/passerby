@@ -16,7 +16,7 @@ Accept: application/json
 
 ###
 
-GET http://passerby.cn/api/v1/users/6?access-token=59a1af448c3cd7f250e0635c39a05a5a
+GET http://passerby.cn/api/v1/users/7?access-token=59a1af448c3cd7f250e0635c39a05a5a
 Accept: application/json
 
 ###

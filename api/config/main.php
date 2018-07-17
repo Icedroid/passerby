@@ -59,7 +59,8 @@ return [
                 'GET v1/login' => 'v1/default/login',
                 'POST v1/users/wechat' => 'v1/user/update-by-wechat',
                 'POST v1/users' => 'v1/user/update',
-                'GET v1/users/<id:?>' => 'v1/user/view',
+                'GET v1/users' => 'v1/user/index',
+                'GET v1/users/<id>' => 'v1/user/view',
                 [
                     'class' => yii\rest\UrlRule::className(),
                     'controller' => ['v1/user-collect', 'v1/user-experience'],
