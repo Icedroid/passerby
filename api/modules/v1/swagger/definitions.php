@@ -60,20 +60,15 @@ namespace app\models\v1\swagger;
 /**
  * @SWG\Definition(
  *      definition="UserCollect",
- *      required={"access_token", "uid"},
- * 	    @SWG\Property(property="access_token", type="string", example="59a1af448c3cd7f250e0635c39a05a5a", description="access_token"),
+ *      required={"uid"},
  * 		@SWG\Property(property="uid", type="integer", description="被收藏的用户ID"),
  * 		@SWG\Property(property="remark", type="string", description="备注"),
- * 		@SWG\Property(property="avator", type="string", description="用户头像"),
  * )
  */
 
 /**
  * @SWG\Definition(
  *      definition="UserExperience",
- *      required={"access_token", "uid"},
- * 	    @SWG\Property(property="access_token", type="string", example="59a1af448c3cd7f250e0635c39a05a5a", description="access_token"),
- * 		@SWG\Property(property="uid", type="integer", description="用户ID"),
  * 		@SWG\Property(property="content", type="string", description="经历内容"),
  * 		@SWG\Property(property="start_date", type="integer", description="开始日期"),
  * 		@SWG\Property(property="end_date", type="integer", description="结束日期"),

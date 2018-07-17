@@ -32,6 +32,12 @@ class UpdateByWechatAction extends Action
             call_user_func($this->checkAccess, $this->id, $model);
         }
 
+        //保存一次不再保存
+        if($model->avatar && $model->nickname)
+        {
+            return $model;
+        }
+
         $loginForm = new LoginForm();
         $loginForm->load(Yii::$app->getRequest()->getBodyParams(), '');
 
