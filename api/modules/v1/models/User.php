@@ -17,8 +17,8 @@ class User extends \common\models\User implements IdentityInterface
     public function fields()
     {
         $fields = parent::fields();
-        unset($fields['auth_key'], $fields['status'], $fields['created_at'], $fields['updated_at']);
-        $fields['access_token'] = 'auth_key';
+        unset($fields['auth_key'], $fields['openid'], $fields['session_key'], $fields['status'], $fields['created_at'], $fields['updated_at']);
+//        $fields['access_token'] = 'auth_key';
         return $fields;
     }
 
