@@ -51,9 +51,8 @@ namespace app\models\v1\swagger;
  * iv	String	加密算法的初始向量，详细见加密数据解密算法
  *
  * @SWG\Definition(
- *      definition="Login",
- *      required={"auth_key", "rawData", "signature", "encryptedData", "iv"},
- * 	    @SWG\Property(property="auth_key", type="string", example="59a1af448c3cd7f250e0635c39a05a5a", description="auth_key"),
+ *      definition="WechatUser",
+ *      required={"rawData", "signature", "encryptedData", "iv"},
  * 		@SWG\Property(property="rawData", type="string", description="微信getUserInfo返回的rawData"),
  * 		@SWG\Property(property="signature", type="string", description="微信getUserInfo返回的signature"),
  * 		@SWG\Property(property="encryptedData", type="string", description="微信getUserInfo返回的encryptedData"),

@@ -42,14 +42,14 @@ class User extends \common\models\User implements IdentityInterface
     /**
      * @param $loginForm \api\modules\v1\models\form\LoginForm::class
      */
-    public function setAttributesByLoginForm($loginForm)
+    public function loadByLoginForm($loginForm)
     {
-        if (!($oauth = yii::$app->cache->get($loginForm->auth_key))) {
+        if (!$this->auth_key) {
             $this->addError('auth_key', 'auth_key is experied');
             return false;
         }
 
-        $sign = sha1(htmlspecialchars_decode($loginForm->rawData . $oauth['session_key']));
+        $sign = sha1(htmlspecialchars_decode($loginForm->rawData . $this->session_key));
         if ($sign !== $loginForm->signature) {
             $this->addError('auth_key', "sign error");
             return false;
@@ -57,9 +57,8 @@ class User extends \common\models\User implements IdentityInterface
 
         try {
             $app = Yii::$app->wechat->miniProgram;
-            $userInfo = $app->encryptor->decryptData($oauth['session_key'], $loginForm->iv, $loginForm->encryptedData);
+            $userInfo = $app->encryptor->decryptData($this->session_key, $loginForm->iv, $loginForm->encryptedData);
             if ($userInfo) {
-                $this->generateAccessToken();
                 $this->avatar = $userInfo['avatarUrl'];
                 $this->gender = intval($userInfo['gender']);
                 $this->nickname = $userInfo['nickName'];
@@ -89,7 +88,7 @@ class User extends \common\models\User implements IdentityInterface
      */
     public static function findIdentityByAccessToken($token, $type = null)
     {
-        return static::findOne(['auth_key' => $token]);
+        return static::findOne(['auth_key' => $token, 'status' => self::STATUS_ACTIVE]);
     }
 
     /**
@@ -114,5 +113,13 @@ class User extends \common\models\User implements IdentityInterface
     public function validateAuthKey($authKey)
     {
         return $this->getAuthKey() === $authKey;
+    }
+
+    /**
+     *
+     */
+    public static function findIdentityByOpenId($openId)
+    {
+        return static::findOne(['openid' => $openId]);
     }
 }

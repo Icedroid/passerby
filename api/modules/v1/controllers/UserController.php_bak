@@ -48,7 +48,7 @@ class UserController extends ActiveController
 //                ],
             ],
             'only' => [
-                'index', 'view', 'update', 'update-by-wechat'
+                'index', 'view', 'update'
             ],
 //            'class'=>HttpBearerAuth::className(),
 //            'only'=>[
@@ -58,28 +58,33 @@ class UserController extends ActiveController
         return $behaviors;
     }
 
+    /**
+     * {@inheritdoc}
+     */
+    protected function verbs()
+    {
+        return [
+            'index' => ['GET', 'HEAD'],
+            'view' => ['GET', 'HEAD'],
+            'create' => ['POST'],
+            'update' => ['POST', 'PUT'],
+            'delete' => ['DELETE'],
+        ];
+    }
 
     /**
-     * 保存微信端的用户信息
      *
-     * @SWG\Post(path="/users-wechat",
+     * @SWG\Post(path="/users",
      *     tags={"user"},
-     *     summary="保存微信端的用户信息",
+     *     summary="用户注册",
      *     description="返回用户信息",
      *     produces={"application/json"},
      *     @SWG\Parameter(
-     *        in = "query",
-     *        name = "access-token",
-     *        description = "access-token",
-     *        required = true,
-     *        type = "string"
-     *     ),
-     *     @SWG\Parameter(
      *        in = "body",
      *        name = "body",
-     *        description = "微信信息的整个json作为内容体",
+     *        description = "用户信息的整个json作为内容体",
      *        required = true,
-     *        @SWG\Schema(ref="#/definitions/WechatUser"),
+     *        @SWG\Schema(ref="#/definitions/User"),
      *     ),
      *     @SWG\Response(
      *         response = 200,
@@ -91,11 +96,18 @@ class UserController extends ActiveController
 
     /**
      *
-     * @SWG\Post(path="/users",
+     * @SWG\Put(path="/users/{id}",
      *     tags={"user"},
      *     summary="更新用户信息",
      *     description="返回用户信息",
      *     produces={"application/json"},
+     *     @SWG\Parameter(
+     *        in = "path",
+     *        name = "id",
+     *        description = "用户ID",
+     *        required = true,
+     *        type = "integer"
+     *     ),
      *     @SWG\Parameter(
      *        in = "query",
      *        name = "access-token",
@@ -113,29 +125,6 @@ class UserController extends ActiveController
      *     @SWG\Response(
      *         response = 200,
      *         description = " success"
-     *     )
-     * )
-     *
-     */
-
-    /**
-     *
-     * @SWG\Get(path="/users",
-     *     tags={"user"},
-     *     summary="找人",
-     *     description="返回用户列表",
-     *     produces={"application/json"},
-     *     @SWG\Parameter(
-     *        in = "query",
-     *        name = "nickname",
-     *        description = "查询条件",
-     *        required = false,
-     *        type = "string"
-     *     ),
-     *     @SWG\Response(
-     *         response = 200,
-     *         description = " success",
-     *         @SWG\Schema(ref="#/definitions/User")
      *     )
      * )
      *
@@ -172,38 +161,10 @@ class UserController extends ActiveController
      */
     public function actions()
     {
-        $actions = [
-            'index' => [
-                'class' => 'yii\rest\IndexAction',
-                'modelClass' => $this->modelClass,
-                'checkAccess' => [$this, 'checkAccess'],
-            ],
-            'view' => [
-                'class' => 'yii\rest\ViewAction',
-                'modelClass' => $this->modelClass,
-                'checkAccess' => [$this, 'checkAccess'],
-            ],
-            'update' => [
-                'class' => '\api\modules\v1\actions\user\UpdateAction',
-                'modelClass' => $this->modelClass,
-                'checkAccess' => [$this, 'checkAccess'],
-                'scenario' => $this->updateScenario,
-            ],
-            'update-by-wechat' => [
-                'class' => \api\modules\v1\actions\user\UpdateByWechatAction::class,
-                'modelClass' => $this->modelClass,
-                'checkAccess' => [$this, 'checkAccess'],
-                'scenario' => $this->updateScenario,
-            ],
-//            'delete' => [
-//                'class' => 'yii\rest\DeleteAction',
-//                'modelClass' => $this->modelClass,
-//                'checkAccess' => [$this, 'checkAccess'],
-//            ],
-//            'options' => [
-//                'class' => 'yii\rest\OptionsAction',
-//            ],
-        ];
+        $actions = parent::actions();
+
+        // 禁用"delete" 和 "create" 动作
+        unset($actions['delete']);
 
         // 使用"prepareDataProvider()"方法自定义数据provider
 //        $actions['index']['prepareDataProvider'] = [$this, 'prepareDataProvider'];
@@ -237,19 +198,6 @@ class UserController extends ActiveController
 //        ]);
 //        return $dataProvider;
 //    }
-
-    /**
-     * {@inheritdoc}
-     */
-    protected function verbs()
-    {
-        return [
-            'index' => ['GET', 'HEAD'],
-            'view' => ['GET', 'HEAD'],
-            'update' => ['POST'],
-            'update-by-wechat' => ['POST'],
-        ];
-    }
 
 
 }

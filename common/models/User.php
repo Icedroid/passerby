@@ -18,11 +18,9 @@ use yii\web\IdentityInterface;
  * User model
  *
  * @property integer $id
- * @property string $username
- * @property string $password_hash
- * @property string $password_reset_token
- * @property string $email
  * @property string $auth_key
+ * @property string $openid
+ * @property string $session_key
  * @property integer $status
  * @property integer $created_at
  * @property integer $updated_at
@@ -58,8 +56,9 @@ class User extends ActiveRecord implements IdentityInterface
     {
         return [
             [['gender', 'birthday', 'education', 'marriage', 'is_special', 'status', 'created_at', 'updated_at'], 'integer'],
-            [['auth_key', 'avatar', 'nickname', 'job'], 'string', 'max' => 255],
-//            [['auth_key'], 'unique'],
+            [['auth_key', 'openid', 'session_key', 'avatar', 'nickname', 'job'], 'string', 'max' => 255],
+            [['auth_key'], 'unique'],
+            [['openid'], 'unique'],
 //            [['username'], 'unique'],
             ['status', 'default', 'value' => self::STATUS_ACTIVE],
             ['status', 'in', 'range' => [self::STATUS_ACTIVE, self::STATUS_DELETED]],

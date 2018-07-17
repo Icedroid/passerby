@@ -16,7 +16,7 @@ use api\modules\v1\models\User;
  */
 class LoginForm extends Model
 {
-    public $auth_key;
+//    public $auth_key;
     public $userInfo;
     public $rawData;
     public $signature;
@@ -33,8 +33,8 @@ class LoginForm extends Model
     {
         return [
             // username and password are both required
-            [['auth_key', 'rawData', 'signature', 'encryptedData', 'iv'], 'required'],
-            [['auth_key', 'rawData', 'signature', 'encryptedData', 'iv'], 'string', 'max'=>255],
+            [['rawData', 'signature', 'encryptedData', 'iv'], 'required'],
+            [['rawData', 'signature', 'encryptedData', 'iv'], 'string', 'max'=>255],
         ];
     }
 

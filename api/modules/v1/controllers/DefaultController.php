@@ -57,7 +57,7 @@ class DefaultController extends Controller
     /**
      * 微信小程序 wx.Login 微信登录时调用的接口
      *
-     * @SWG\Get(path="/session-key",
+     * @SWG\Get(path="/login",
      *     tags={"user"},
      *     summary="获取用户的auth_key",
      *     description="微信小程序 wx.Login 微信登录时调用的接口传jsCode",
@@ -75,10 +75,8 @@ class DefaultController extends Controller
      *         @SWG\Schema(ref="#/definitions/Error"),
      *     )
      * )
-     *
-     *
      */
-    public function actionSessionKey($code)
+    public function actionLogin($code)
     {
         if(!$code){
             return ResponseHelper::apiResult("通信错误，请在微信重新发起请求");
@@ -86,86 +84,41 @@ class DefaultController extends Controller
 
         try{
             $app = Yii::$app->wechat->miniProgram;
-            $oauth = $app->auth->session($code);
+            $oauth = ArrayHelper::toArray($app->auth->session($code));
 
 //            $oauth = array('session_key'=>'test', 'openid'=>'test');
             if($oauth && isset($oauth['errcode']) && isset($oauth['errmsg'])){
                 return ResponseHelper::apiResult($oauth['errmsg']);
             }
 
-            //缓存数据
-            $auth_key = Yii::$app->security->generateRandomString().'_'.time();
-            Yii::$app->cache->set($auth_key, ArrayHelper::toArray($oauth), 7195);
+            if(! (isset($oauth['openid']) && isset($oauth['session_key']))){
+                return ResponseHelper::apiResult('session_key not return');
+            }
 
-            return [
-                'auth_key'=>$auth_key,
-            ];
+            $model = User::findIdentityByOpenId($oauth['openid']);
+            if (NULL === $model) {
+                $model = new User();
+                $model->openid = $oauth['openid'];
+            }
+            $model->generateAccessToken();
+            $model->session_key = $oauth['session_key'];
+            if($model->save()){
+                return [
+                    'access_token' => $model->auth_key,
+                ];
+            }elseif ($model->hasErrors()) {
+                return $model;
+            }else{
+                throw new ServerErrorHttpException('Failed to create the object for unknown reason.');
+            }
+
+
+            //缓存数据
+//            $auth_key = Yii::$app->security->generateRandomString().'_'.time();
+//            Yii::$app->cache->set($auth_key, ArrayHelper::toArray($oauth), 7195);
+
         }catch (\Exception $e){
             return ResponseHelper::apiResult($e->getMessage());
-        }
-
-    }
-
-    /**
-     * 用户登录接口
-     * @SWG\Post(path="/login",
-     *     tags={"user"},
-     *     summary="用户登录",
-     *     description="返回用户信息",
-     *     produces={"application/json"},
-     *     @SWG\Parameter(
-     *        in = "body",
-     *        name = "body",
-     *        description = "微信信息+auth_key的整个json作为内容体",
-     *        required = true,
-     *        @SWG\Schema(ref="#/definitions/Login"),
-     *     ),
-     *     @SWG\Response(
-     *         response = 200,
-     *         description = " success"
-     *     )
-     * )
-     *
-     * @return User|array|null|void|\yii\web\IdentityInterface
-     * @throws ServerErrorHttpException
-     * @throws \Throwable
-     * @throws \yii\db\StaleObjectException
-     */
-    public function actionLogin()
-    {
-        $loginForm = new LoginForm();
-
-        $loginForm->load(Yii::$app->request->post(), '');
-
-        $model = User::findIdentityByAccessToken($loginForm->auth_key);
-        if (NULL === $model) {
-            $model = new User();
-            if($model->setAttributesByLoginForm($loginForm)){
-                if ($model->save()) {
-//                    return ["access_token" => $model->auth_key];
-                    return $model;
-                } elseif ($model->hasErrors()) {
-                    return $model;
-                }else{
-                    throw new ServerErrorHttpException('Failed to create the object for unknown reason.');
-                }
-            }elseif ($model->hasErrors()) {
-                return $model;
-            }
-        } else {
-            if($model->setAttributesByLoginForm($loginForm)){
-                if ($model->update(false) !== false) {    // update successful
-//                    $model->updateCounters(['login_count'=>1]);
-                    return $model;
-                } elseif ($model->hasErrors()) {
-                    return $model;
-                } else {// update failed
-                    throw new ServerErrorHttpException('Failed to update the object for unknown reason.');
-
-                }
-            }elseif ($model->hasErrors()) {
-                return $model;
-            }
         }
 
     }

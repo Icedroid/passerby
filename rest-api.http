@@ -5,27 +5,13 @@
 # * 'ptr' and 'ptrp' create a POST request with a simple or parameter-like body;
 # * 'mptr' and 'fptr' create a POST request to submit a form with a text or file field (multipart/form-data);
 
-GET  http://passerby.cn/api/v1/session-key?code=test
+
+GET http://passerby.cn/api/v1/login?code=test
 Accept: application/json
-{
-}
 
 ###
 
-POST http://passerby.cn/api/v1/login
-Content-Type: application/json
-
-{
-  "auth_key": "kWWxjgbsfMhDG1mfRcie_upEpWL4UYVp_1531822053",
-  "rawData": "test",
-  "signature": "test",
-  "encryptedData": "test",
-  "iv": "test"
-}
-
-###
-
-GET http://passerby.cn/api/v1/users?access-token=59a1af448c3cd7f250e0635c39a05a5a
+GET http://passerby.cn/api/v1/users?access-token=5plYgmXGgsbxKLfVfn0STViBi9hynwfw
 Accept: application/json
 
 ###
@@ -35,11 +21,22 @@ Accept: application/json
 
 ###
 
-POST http://passerby.cn/api/v1/users
+POST http://passerby.cn/api/v1/users/wechat?access-token=5plYgmXGgsbxKLfVfn0STViBi9hynwfw
 Content-Type: application/json
 
 {
-  "access_token": "59a1af448c3cd7f250e0635c39a05a5a",
+  "rawData": "test",
+  "signature": "test",
+  "encryptedData": "test",
+  "iv": "test"
+}
+
+###
+
+POST http://passerby.cn/api/v1/users?access-token=59a1af448c3cd7f250e0635c39a05a5a
+Content-Type: application/json
+
+{
   "username": "test2",
   "nickname": "小猪费奇2",
   "avatar": "uploads/3.png",
@@ -48,23 +45,6 @@ Content-Type: application/json
   "education": 0,
   "marriage": 1,
   "job": "工程师"
-}
-
-###
-
-PUT http://passerby.cn/api/v1/users/6?access-token=59a1af448c3cd7f250e0635c39a05a5a
-Content-Type: application/json
-
-{
-  "access_token": "testaf448c3cd7f250e0635c39a0test",
-  "username": "test",
-  "nickname": "小猪费奇",
-  "avatar": "uploads/1.png",
-  "gender": 2,
-  "birthday": 2002,
-  "education": 3,
-  "marriage": 2,
-  "job": "IT"
 }
 
 ###
