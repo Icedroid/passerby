@@ -29,17 +29,14 @@ namespace app\models\v1\swagger;
 /**
  * @SWG\Definition(
  *      definition="User",
- *      required={"access_token", "username"},
- * 	    @SWG\Property(property="access_token", type="string", example="59a1af448c3cd7f250e0635c39a05a5a", description="access_token"),
- * 		@SWG\Property(property="username", type="string", description="用户名"),
  * 		@SWG\Property(property="nickname", type="string", description="用户昵称"),
- * 		@SWG\Property(property="avator", type="string", description="用户头像"),
+ * 		@SWG\Property(property="avatar", type="string", description="用户头像"),
  * 		@SWG\Property(property="gender", type="integer", description="性别"),
  * 		@SWG\Property(property="birthday", type="integer", description="生日"),
  * 		@SWG\Property(property="education", type="integer", description="教育"),
  * 		@SWG\Property(property="marriage", type="integer", description="婚姻"),
  * 		@SWG\Property(property="job", type="string", description="职业"),
- * 		@SWG\Property(property="is_specail", type="string", description="是否是过来人"),
+ * 		@SWG\Property(property="is_special", type="integer", description="是否是过来人"),
  * )
  */
 

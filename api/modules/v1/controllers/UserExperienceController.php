@@ -80,7 +80,7 @@ class UserExperienceController extends ActiveController
 
     /**
      *
-     * @SWG\Put(path="/user-experiences/{id}",
+     * @SWG\Post(path="/user-experiences/{id}",
      *     tags={"user"},
      *     summary="更新用户经历",
      *     description="返回成功信息",
@@ -175,5 +175,17 @@ class UserExperienceController extends ActiveController
         return $dataProvider;
     }
 
+    /**
+     * {@inheritdoc}
+     */
+    protected function verbs()
+    {
+        return [
+            'index' => ['GET', 'HEAD'],
+            'view' => ['GET', 'HEAD'],
+            'create' => ['POST'],
+            'update' => ['POST'],
+        ];
+    }
 
 }

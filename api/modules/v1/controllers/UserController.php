@@ -238,18 +238,5 @@ class UserController extends ActiveController
 //        return $dataProvider;
 //    }
 
-    /**
-     * {@inheritdoc}
-     */
-    protected function verbs()
-    {
-        return [
-            'index' => ['GET', 'HEAD'],
-            'view' => ['GET', 'HEAD'],
-            'update' => ['POST'],
-            'update-by-wechat' => ['POST'],
-        ];
-    }
-
 
 }

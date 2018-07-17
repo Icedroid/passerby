@@ -80,7 +80,7 @@ class UserCollectController extends ActiveController
 
     /**
      *
-     * @SWG\Put(path="/user-collects/{id}",
+     * @SWG\Post(path="/user-collects/{id}",
      *     tags={"user"},
      *     summary="更新收藏的备注",
      *     description="返回成功信息",
@@ -176,5 +176,17 @@ class UserCollectController extends ActiveController
         return $dataProvider;
     }
 
+    /**
+     * {@inheritdoc}
+     */
+    protected function verbs()
+    {
+        return [
+            'index' => ['GET', 'HEAD'],
+            'view' => ['GET', 'HEAD'],
+            'create' => ['POST'],
+            'update' => ['POST'],
+        ];
+    }
 
 }
