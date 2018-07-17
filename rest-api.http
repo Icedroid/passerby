@@ -5,9 +5,22 @@
 # * 'ptr' and 'ptrp' create a POST request with a simple or parameter-like body;
 # * 'mptr' and 'fptr' create a POST request to submit a form with a text or file field (multipart/form-data);
 
-OPTIONS  http://passerby.cn/api/v1/users
+GET  http://passerby.cn/api/v1/session-key?code=test
 Accept: application/json
 {
+}
+
+###
+
+POST http://passerby.cn/api/v1/login
+Content-Type: application/json
+
+{
+  "auth_key": "kWWxjgbsfMhDG1mfRcie_upEpWL4UYVp_1531822053",
+  "rawData": "test",
+  "signature": "test",
+  "encryptedData": "test",
+  "iv": "test"
 }
 
 ###

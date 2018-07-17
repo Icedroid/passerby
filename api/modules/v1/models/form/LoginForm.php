@@ -9,27 +9,19 @@ namespace api\modules\v1\models\form;
 
 use yii;
 use yii\base\Model;
-use api\modules\v1\models\CarAgency;
+use api\modules\v1\models\User;
 
 /**
  * Login form
  */
 class LoginForm extends Model
 {
-    public $access_token;
-    public $accountCode;
-    public $accountName;
-    public $brandCode;
-    public $dossBrandId;
-    public $mobile;
-    public $positionCode;
-    public $positionId;
-    public $positionName;
-    public $saleCode;
-    public $serviceCode;
-    public $storeCode;
-    public $storeName;
-    public $storeShortName;
+    public $auth_key;
+    public $userInfo;
+    public $rawData;
+    public $signature;
+    public $encryptedData;
+    public $iv;
 
     private $_user;
 
@@ -41,12 +33,8 @@ class LoginForm extends Model
     {
         return [
             // username and password are both required
-            [['access_token', 'accountCode', 'mobile'], 'required'],
-            [['accountCode', 'accountName', 'mobile', 'positionCode', 'positionId', 'positionName', 'saleCode', 'serviceCode', 'storeName', 'storeShortName'], 'string', 'max'=>255],
-            [['brandCode', 'dossBrandId', 'storeCode'], 'integer'],
-            [['mobile'], 'unique'],
-            [['access_token'], 'unique'],
-            [['accountCode'], 'unique'],
+            [['auth_key', 'rawData', 'signature', 'encryptedData', 'iv'], 'required'],
+            [['auth_key', 'rawData', 'signature', 'encryptedData', 'iv'], 'string', 'max'=>255],
         ];
     }
 
@@ -90,7 +78,7 @@ class LoginForm extends Model
     protected function getUser()
     {
         if ($this->_user === null) {
-            $this->_user = CarAgency::findIdentityByAccessToken($this->access_token);
+            $this->_user = User::findIdentityByAccessToken($this->auth_key);
         }
 
         return $this->_user;

@@ -44,6 +44,24 @@ namespace app\models\v1\swagger;
  */
 
 /**
+ * userInfo	OBJECT	用户信息对象，不包含 openid 等敏感信息
+ * rawData	String	不包括敏感信息的原始数据字符串，用于计算签名。
+ * signature	String	使用 sha1( rawData + sessionkey ) 得到字符串，用于校验用户信息，参考文档 signature。
+ * encryptedData	String	包括敏感数据在内的完整用户信息的加密数据，详细见加密数据解密算法
+ * iv	String	加密算法的初始向量，详细见加密数据解密算法
+ *
+ * @SWG\Definition(
+ *      definition="Login",
+ *      required={"auth_key", "rawData", "signature", "encryptedData", "iv"},
+ * 	    @SWG\Property(property="auth_key", type="string", example="59a1af448c3cd7f250e0635c39a05a5a", description="auth_key"),
+ * 		@SWG\Property(property="rawData", type="string", description="微信getUserInfo返回的rawData"),
+ * 		@SWG\Property(property="signature", type="string", description="微信getUserInfo返回的signature"),
+ * 		@SWG\Property(property="encryptedData", type="string", description="微信getUserInfo返回的encryptedData"),
+ * 		@SWG\Property(property="iv", type="string", description="微信getUserInfo返回的iv"),
+ * )
+ */
+
+/**
  * @SWG\Definition(
  *      definition="UserCollect",
  *      required={"access_token", "uid"},

@@ -22,6 +22,16 @@ class UserController extends ActiveController
 //        'collectionEnvelope' => 'items',
 //    ];
 
+//    public function checkAccess($action, $model = null, $params = [])
+//    {
+//        // check if the user can access $action and $model
+//        // throw ForbiddenHttpException if access should be denied
+//        if ($action === 'create' || $action === 'delete') {
+//            if ($model->author_id !== \Yii::$app->user->id)
+//                throw new \yii\web\ForbiddenHttpException(sprintf('You can only %s articles that you\'ve created.', $action));
+//        }
+//    }
+
     public function behaviors()
     {
         $behaviors = parent::behaviors();
@@ -48,6 +58,19 @@ class UserController extends ActiveController
         return $behaviors;
     }
 
+    /**
+     * {@inheritdoc}
+     */
+    protected function verbs()
+    {
+        return [
+            'index' => ['GET', 'HEAD'],
+            'view' => ['GET', 'HEAD'],
+            'create' => ['POST'],
+            'update' => ['POST', 'PUT'],
+            'delete' => ['DELETE'],
+        ];
+    }
 
     /**
      *

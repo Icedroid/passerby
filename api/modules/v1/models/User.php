@@ -18,20 +18,57 @@ class User extends \common\models\User implements IdentityInterface
     {
         $fields = parent::fields();
         unset($fields['auth_key'], $fields['status'], $fields['created_at'], $fields['updated_at']);
+        $fields['access_token'] = 'auth_key';
         return $fields;
     }
 
     public function beforeValidate()
     {
-        $requestParams = Yii::$app->getRequest()->getBodyParams();
-        if (empty($requestParams)) {
-            $requestParams = Yii::$app->getRequest()->getQueryParams();
-        }
-        if(isset($requestParams['access_token'])){
-            $this->auth_key =  $requestParams['access_token'];
-        }
+//        $requestParams = Yii::$app->getRequest()->getBodyParams();
+//        if (empty($requestParams)) {
+//            $requestParams = Yii::$app->getRequest()->getQueryParams();
+//        }
+//        if (isset($requestParams['access_token'])) {
+//            $this->auth_key = $requestParams['access_token'];
+//        }
+//        if(isset($requestParams['code'])){
+//            $app = Yii::$app->wechat->miniProgram;
+//            $app->auth->session($requestParams['code']);
+//        }
 
         return parent::beforeValidate();
+    }
+
+    /**
+     * @param $loginForm \api\modules\v1\models\form\LoginForm::class
+     */
+    public function setAttributesByLoginForm($loginForm)
+    {
+        if (!($oauth = yii::$app->cache->get($loginForm->auth_key))) {
+            $this->addError('auth_key', 'auth_key is experied');
+            return false;
+        }
+
+        $sign = sha1(htmlspecialchars_decode($loginForm->rawData . $oauth['session_key']));
+        if ($sign !== $loginForm->signature) {
+            $this->addError('auth_key', "sign error");
+            return false;
+        }
+
+        try {
+            $app = Yii::$app->wechat->miniProgram;
+            $userInfo = $app->encryptor->decryptData($oauth['session_key'], $loginForm->iv, $loginForm->encryptedData);
+            if ($userInfo) {
+                $this->generateAccessToken();
+                $this->avatar = $userInfo['avatarUrl'];
+                $this->gender = intval($userInfo['gender']);
+                $this->nickname = $userInfo['nickName'];
+            }
+        } catch (\Exception $e) {
+            $this->addError('auth_key', $e->getMessage());
+            return false;
+        }
+        return true;
     }
 
     public function generateAccessToken()

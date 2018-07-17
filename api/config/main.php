@@ -33,7 +33,8 @@ return [
             ],
         ],
         'cache' => [
-            'class' => yii\caching\DummyCache::className(),
+//            'class' => yii\caching\DummyCache::className(),
+            'class' => yii\caching\FileCache::className(),//使用文件缓存，可根据需要改成apc redis memcache等其他缓存方式
             'keyPrefix' => 'api',       // 唯一键前缀
         ],
         'i18n' => [
@@ -55,12 +56,19 @@ return [
             'showScriptName' => false,
             'rules' => [
                 '' => 'v1/default/index',
-//                'v1/login' => 'v1/default/login',
+                'v1/session-key' => 'v1/default/session-key',
+                'v1/login' => 'v1/default/login',
                 [
                     'class' => yii\rest\UrlRule::className(),
                     'controller' => ['v1/user', 'v1/user-collect', 'v1/user-experience'],
                 ],
             ],
+        ],
+        'wechat' => [
+            'class' => 'jianyan\easywechat\Wechat',
+            // 'userOptions' => []  # 用户身份类参数
+            // 'sessionParam' => '' # 微信用户信息将存储在会话在这个密钥
+            // 'returnUrlParam' => '' # returnUrl 存储在会话中
         ],
         'request' => [
             'parsers' => [

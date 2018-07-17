@@ -19,7 +19,8 @@
         "yiisoft/yii2-swiftmailer": "*",
         "feehi/yii2-swoole": ">=0.0.5",
         "feehi/yii2-cdn" : "*",
-        "yiisoft/yii2-imagine": "^2.1"
+        "yiisoft/yii2-imagine": "^2.1",
+        "jianyan74/yii2-easy-wechat": ">=1.0.6"
     },
     "require-dev": {
         "yiisoft/yii2-debug": "~2.0.0",
