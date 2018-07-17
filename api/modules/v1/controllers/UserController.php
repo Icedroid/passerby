@@ -62,7 +62,7 @@ class UserController extends ActiveController
     /**
      * 保存微信端的用户信息
      *
-     * @SWG\Post(path="/users-wechat",
+     * @SWG\Post(path="/users/wechat",
      *     tags={"user"},
      *     summary="保存微信端的用户信息",
      *     description="返回用户信息",
