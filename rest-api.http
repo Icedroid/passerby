@@ -11,7 +11,7 @@ Accept: application/json
 
 ###
 
-GET http://passerby.cn/api/v1/users?access-token=5plYgmXGgsbxKLfVfn0STViBi9hynwfw
+GET http://passerby.cn/api/v1/users?access-token=testaf448c3cd7f250e0635c39a0test
 Accept: application/json
 
 ###
@@ -21,7 +21,7 @@ Accept: application/json
 
 ###
 
-POST http://passerby.cn/api/v1/users/wechat?access-token=5plYgmXGgsbxKLfVfn0STViBi9hynwfw
+POST http://passerby.cn/api/v1/users/wechat?access-token=testaf448c3cd7f250e0635c39a0test
 Content-Type: application/json
 
 {
@@ -64,11 +64,19 @@ Content-Type: application/json
 
 ###
 
-PUT http://passerby.cn/api/v1/user-collects/6?access-token=testaf448c3cd7f250e0635c39a0test
+POST http://passerby.cn/api/v1/user-collects/1?access-token=testaf448c3cd7f250e0635c39a0test
 Content-Type: application/json
 
 {
   "remark": "测试2"
+}
+
+###
+
+POST http://passerby.cn/api/v1/user-collects/delete/1?access-token=testaf448c3cd7f250e0635c39a0test
+Content-Type: application/json
+
+{
 }
 
 ###

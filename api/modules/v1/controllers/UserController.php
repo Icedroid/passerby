@@ -58,6 +58,13 @@ class UserController extends ActiveController
         return $behaviors;
     }
 
+    /**
+     * {@inheritdoc}
+     */
+    protected function verbs()
+    {
+        return [];
+    }
 
     /**
      * 保存微信端的用户信息

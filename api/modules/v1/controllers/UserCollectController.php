@@ -50,6 +50,14 @@ class UserCollectController extends ActiveController
 
 
     /**
+     * {@inheritdoc}
+     */
+    protected function verbs()
+    {
+        return [];
+    }
+
+    /**
      *
      * @SWG\Post(path="/user-collects",
      *     tags={"user"},
@@ -103,6 +111,42 @@ class UserCollectController extends ActiveController
      *        in = "body",
      *        name = "body",
      *        description = "收藏的用户备注",
+     *        required = true,
+     *        @SWG\Schema(ref="#/definitions/UserCollect"),
+     *     ),
+     *     @SWG\Response(
+     *         response = 200,
+     *         description = " success"
+     *     )
+     * )
+     *
+     */
+
+    /**
+     *
+     * @SWG\Post(path="/user-collects/delete/{id}",
+     *     tags={"user"},
+     *     summary="取消收藏",
+     *     description="返回成功信息",
+     *     produces={"application/json"},
+     *     @SWG\Parameter(
+     *        in = "path",
+     *        name = "id",
+     *        description = "收藏ID",
+     *        required = true,
+     *        type = "integer"
+     *     ),
+     *     @SWG\Parameter(
+     *        in = "query",
+     *        name = "access-token",
+     *        description = "access-token",
+     *        required = true,
+     *        type = "string"
+     *     ),
+     *     @SWG\Parameter(
+     *        in = "body",
+     *        name = "body",
+     *        description = "{}",
      *        required = true,
      *        @SWG\Schema(ref="#/definitions/UserCollect"),
      *     ),
@@ -174,19 +218,6 @@ class UserCollectController extends ActiveController
             ]
         ]);
         return $dataProvider;
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    protected function verbs()
-    {
-        return [
-            'index' => ['GET', 'HEAD'],
-            'view' => ['GET', 'HEAD'],
-            'create' => ['POST'],
-            'update' => ['POST'],
-        ];
     }
 
 }

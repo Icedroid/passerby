@@ -48,6 +48,13 @@ class UserExperienceController extends ActiveController
         return $behaviors;
     }
 
+    /**
+     * {@inheritdoc}
+     */
+    protected function verbs()
+    {
+        return [];
+    }
 
     /**
      *
@@ -103,6 +110,42 @@ class UserExperienceController extends ActiveController
      *        in = "body",
      *        name = "body",
      *        description = "用户经历内容content和start_date、end_date",
+     *        required = true,
+     *        @SWG\Schema(ref="#/definitions/UserExperience"),
+     *     ),
+     *     @SWG\Response(
+     *         response = 200,
+     *         description = " success"
+     *     )
+     * )
+     *
+     */
+
+    /**
+     *
+     * @SWG\Post(path="/user-experiences/delete/{id}",
+     *     tags={"user"},
+     *     summary="删除经历",
+     *     description="返回成功信息",
+     *     produces={"application/json"},
+     *     @SWG\Parameter(
+     *        in = "query",
+     *        name = "access-token",
+     *        description = "access-token",
+     *        required = true,
+     *        type = "string"
+     *     ),
+     *     @SWG\Parameter(
+     *        in = "path",
+     *        name = "id",
+     *        description = "经历ID",
+     *        required = true,
+     *        type = "integer"
+     *     ),
+     *     @SWG\Parameter(
+     *        in = "body",
+     *        name = "body",
+     *        description = "{}",
      *        required = true,
      *        @SWG\Schema(ref="#/definitions/UserExperience"),
      *     ),
@@ -173,19 +216,6 @@ class UserExperienceController extends ActiveController
             ]
         ]);
         return $dataProvider;
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    protected function verbs()
-    {
-        return [
-            'index' => ['GET', 'HEAD'],
-            'view' => ['GET', 'HEAD'],
-            'create' => ['POST'],
-            'update' => ['POST'],
-        ];
     }
 
 }

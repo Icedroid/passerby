@@ -57,22 +57,29 @@ return [
             'rules' => [
                 '' => 'v1/default/index',
                 'GET v1/login' => 'v1/default/login',
-                'POST v1/users/wechat' => 'v1/user/update-by-wechat',
-                'POST v1/users' => 'v1/user/update',
-                'GET v1/users' => 'v1/user/index',
-                'GET v1/users/<id>' => 'v1/user/view',
                 [
                     'class' => yii\rest\UrlRule::className(),
                     'controller' => ['v1/user-collect', 'v1/user-experience'],
+                    'patterns' => [
+                        'POST {id}' => 'update',
+                        'POST delete/{id}' => 'delete',
+                        'GET,HEAD {id}' => 'view',
+                        'POST' => 'create',
+                        'GET,HEAD' => 'index',
+                    ],
                 ],
-//                [
-//                    'class' => yii\rest\UrlRule::className(),
-//                    'controller' => 'v1/user',
-//                    'patterns' => [
-//
-//                    ],
-//                ]
-                'GET v1/users' => 'v1/user/index',
+                [
+                    'class' => yii\rest\UrlRule::className(),
+                    'controller' => ['v1/user'],
+                    'patterns' => [
+                        'POST' => 'update',
+                        'GET,HEAD {id}' => 'view',
+                        'GET,HEAD' => 'index',
+                    ],
+                    'extraPatterns' => [
+                        'POST wechat' => 'update-by-wechat',
+                    ],
+                ],
             ],
         ],
         'wechat' => [
@@ -100,6 +107,15 @@ return [
             ],
             'on beforeSend' => function ($event) {
                 $response = $event->sender;
+                if ($response->statusCode == 204) {//delete request return empty response
+                    $response->data = [
+                        'code' => 200,
+                        'msg' => 'ok',
+                        'data' => [],
+                    ];
+                    $response->statusCode = 200;
+                    return;
+                }
                 if ($response->data !== null) {
                     $data = $response->data;
                     $response->data = [
