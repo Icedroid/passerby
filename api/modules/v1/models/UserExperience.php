@@ -16,7 +16,10 @@ class UserExperience extends \common\models\UserExperience
     public function fields()
     {
         $fields = parent::fields();
-        unset($fields['start_date'], $fields['end_date']);
+        unset($fields['start_date'], $fields['end_date'], $fields['updated_at']);
+        $fields['created_at'] = function ($model){
+          return date("Y-m-d H:i:s", $model->created_at);
+        };
         return $fields;
     }
 
