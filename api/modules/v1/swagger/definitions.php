@@ -70,8 +70,6 @@ namespace app\models\v1\swagger;
  * @SWG\Definition(
  *      definition="UserExperience",
  * 		@SWG\Property(property="content", type="string", description="经历内容"),
- * 		@SWG\Property(property="start_date", type="integer", description="开始日期"),
- * 		@SWG\Property(property="end_date", type="integer", description="结束日期"),
  * )
  */
 

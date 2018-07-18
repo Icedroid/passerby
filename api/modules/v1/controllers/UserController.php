@@ -216,12 +216,13 @@ class UserController extends ActiveController
 //        $actions['index']['prepareDataProvider'] = [$this, 'prepareDataProvider'];
         $actions['index']['dataFilter'] = [
             'class' => \yii\data\ActiveDataFilter::class,
+            'filterAttributeName' => 'where',
             'searchModel' => function () {
-                return (new \yii\base\DynamicModel(['id' => null, 'auth_key' => null, 'status' => null]))
+                return (new \yii\base\DynamicModel(['id' => null, 'status' => null, 'nickname' => null, ]))
                     ->addRule('id', 'integer')
                     ->addRule('status', 'integer')
-                    ->addRule('auth_key', 'trim')
-                    ->addRule('auth_key', 'string');
+                    ->addRule('nickname', 'trim')
+                    ->addRule('nickname', 'string');
             },
             'filter' => ['status' => ($this->modelClass)::STATUS_ACTIVE],
         ];
@@ -229,21 +230,47 @@ class UserController extends ActiveController
         return $actions;
     }
 
-//    public function prepareDataProvider()
-//    {
-//        $where = ['status' => ($this->modelClass)::STATUS_ACTIVE];
-//        $query = ($this->modelClass)::find()->where($where);
-//        $dataProvider = new ActiveDataProvider([
-//            'query' => $query,
-//            'sort' => [
-//                'defaultOrder' => [
-//                    'created_at' => SORT_DESC,
-//                    'id' => SORT_DESC,
-//                ]
-//            ]
-//        ]);
-//        return $dataProvider;
-//    }
+    /**
+     * 参考IndexAction的prepareDataProvider来修改
+     *
+     * @param $action IndexAction
+     * @param $filter yii\data\ActiveDataFilter
+     * @return ActiveDataProvider
+     * @throws \Throwable
+     */
+    public function prepareDataProvider($action, $filter)
+    {
+        $requestParams = Yii::$app->getRequest()->getBodyParams();
+        if (empty($requestParams)) {
+            $requestParams = Yii::$app->getRequest()->getQueryParams();
+        }
 
+        /* @var $modelClass \yii\db\BaseActiveRecord */
+        $modelClass = $this->modelClass;
+        $query = $modelClass::find()->select([])->where([]);
+        if (!empty($filter)) {
+            $query->andWhere($filter);
+        }
+
+        $dataProvider = Yii::createObject([
+            'class' => ActiveDataProvider::className(),
+            'query' => $query,
+            'pagination' => [
+                'params' => $requestParams,
+                'pageParam'=> 'page',
+                'pageSizeParam' => 'limit',
+                'defaultPageSize' => 20,
+            ],
+            'sort' => [
+                'defaultOrder' => [
+                    'created_at' => SORT_DESC,
+                    'id' => SORT_DESC,
+                ],
+                'params' => $requestParams,
+            ],
+        ]);
+
+        return $dataProvider;
+    }
 
 }

@@ -17,6 +17,13 @@ class UserCollect extends \common\models\UserCollect
     {
         $fields = parent::fields();
         unset($fields['created_at'], $fields['updated_at']);
+
+        $fields['nickname'] = function ($model) {
+            return $model->user->nickname;
+        };
+        $fields['avatar'] = function ($model) {
+            return $model->user->avatar;
+        };
         return $fields;
     }
 

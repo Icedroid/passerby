@@ -73,7 +73,7 @@ class UserExperienceController extends ActiveController
      *     @SWG\Parameter(
      *        in = "body",
      *        name = "body",
-     *        description = "用户经历内容content和start_date、end_date",
+     *        description = "用户经历内容content",
      *        required = true,
      *        @SWG\Schema(ref="#/definitions/UserExperience"),
      *     ),
@@ -109,7 +109,7 @@ class UserExperienceController extends ActiveController
      *     @SWG\Parameter(
      *        in = "body",
      *        name = "body",
-     *        description = "用户经历内容content和start_date、end_date",
+     *        description = "用户经历内容content",
      *        required = true,
      *        @SWG\Schema(ref="#/definitions/UserExperience"),
      *     ),
@@ -170,6 +170,36 @@ class UserExperienceController extends ActiveController
      *        description = "access-token",
      *        required = true,
      *        type = "string"
+     *     ),
+     *     @SWG\Response(
+     *         response = 200,
+     *         description = " success",
+     *         @SWG\Schema(ref="#/definitions/UserExperience"),
+     *     )
+     * )
+     *
+     */
+
+    /**
+     *
+     * @SWG\Get(path="/user-experiences/{id}",
+     *     tags={"user"},
+     *     summary="获取用户某一条经历",
+     *     description="返回一条用户经历",
+     *     produces={"application/json"},
+     *    @SWG\Parameter(
+     *        in = "query",
+     *        name = "access-token",
+     *        description = "access-token",
+     *        required = true,
+     *        type = "string"
+     *     ),
+     *    @SWG\Parameter(
+     *        in = "path",
+     *        name = "id",
+     *        description = "经历ID",
+     *        required = true,
+     *        type = "integer"
      *     ),
      *     @SWG\Response(
      *         response = 200,

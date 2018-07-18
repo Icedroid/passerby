@@ -11,7 +11,8 @@ Accept: application/json
 
 ###
 
-GET http://passerby.cn/api/v1/users?access-token=testaf448c3cd7f250e0635c39a0test
+#GET http://passerby.cn/api/v1/users?access-token=testaf448c3cd7f250e0635c39a0test&where[nickname][like]=小
+GET http://passerby.cn/api/v1/users?access-token=testaf448c3cd7f250e0635c39a0test&where={nickname:小}
 Accept: application/json
 
 ###
@@ -49,7 +50,7 @@ Content-Type: application/json
 
 ###
 
-GET http://passerby.cn/api/v1/user-collects?access-token=testaf448c3cd7f250e0635c39a0test
+GET http://passerby.cn/api/v1/user-collects?access-token=testaf448c3cd7f250e0635c39a0test&page=1
 Accept: application/json
 
 ###
@@ -58,7 +59,7 @@ POST http://passerby.cn/api/v1/user-collects?access-token=testaf448c3cd7f250e063
 Content-Type: application/json
 
 {
-  "uid": 7,
+  "uid": 11,
   "remark": "测试"
 }
 
@@ -86,24 +87,25 @@ Accept: application/json
 
 ###
 
+GET http://passerby.cn/api/v1/user-experiences/2?access-token=testaf448c3cd7f250e0635c39a0test
+Accept: application/json
+
+###
+
 POST http://passerby.cn/api/v1/user-experiences?access-token=testaf448c3cd7f250e0635c39a0test
 Content-Type: application/json
 
 {
-  "start_date": 20170101,
-  "end_date": 20180101,
   "content": "这是一条很长长的工作经历"
 }
 
 ###
 
-PUT http://passerby.cn/api/v1/user-experiences/2?access-token=testaf448c3cd7f250e0635c39a0test
+POST http://passerby.cn/api/v1/user-experiences/2?access-token=testaf448c3cd7f250e0635c39a0test
 Content-Type: application/json
 
 {
-  "start_date": 20170101,
-  "end_date": 20180101,
-  "content": "这是一条很长长的工作经历"
+  "content": "这是一条很长长的工作经历这是一条很长长的工作经历这是一条很长长的工作经历"
 }
 
 ###

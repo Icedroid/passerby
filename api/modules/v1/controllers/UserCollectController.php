@@ -189,35 +189,68 @@ class UserCollectController extends ActiveController
 
         // 使用"prepareDataProvider()"方法自定义数据provider
         $actions['index']['prepareDataProvider'] = [$this, 'prepareDataProvider'];
-//        $actions['index']['dataFilter'] = [
-//            'class' => \yii\data\ActiveDataFilter::class,
-//            'searchModel' => function () {
-//                return (new \yii\base\DynamicModel(['id' => null, 'uid' => null, 'c_uid' => null, 'status' => null]))
-//                    ->addRule('id', 'integer')
-//                    ->addRule('status', 'integer')
-//                    ->addRule('uid', 'integer')
-//                    ->addRule('c_uid', 'integer');
-//            },
-//            'filter' => ['c_uid' => ],
-//        ];
+        $actions['index']['dataFilter'] = [
+            'class' => \yii\data\ActiveDataFilter::class,
+            'filterAttributeName'=>'where',
+            'searchModel' => function () {
+                return (new \yii\base\DynamicModel(['id' => null, 'uid' => null, 'c_uid' => null]))
+                    ->addRule('id', 'integer')
+                    ->addRule('uid', 'integer')
+                    ->addRule('c_uid', 'integer');
+            },
+//            'filter' => ['c_uid' => Yii::$app->getUser()->getIdentity()->getId()],
+        ];
 
         return $actions;
     }
 
-    public function prepareDataProvider()
+    /**
+     * 参考IndexAction的prepareDataProvider来修改
+     *
+     * @param $action IndexAction
+     * @param $filter yii\data\ActiveDataFilter
+     * @return ActiveDataProvider
+     * @throws \Throwable
+     */
+    public function prepareDataProvider($action, $filter)
     {
-        $where = ['c_uid' => Yii::$app->getUser()->getIdentity()->getId()];
-        $query = ($this->modelClass)::find()->where($where);
-        $dataProvider = new ActiveDataProvider([
+        $requestParams = Yii::$app->getRequest()->getBodyParams();
+        if (empty($requestParams)) {
+            $requestParams = Yii::$app->getRequest()->getQueryParams();
+        }
+
+        /* @var $modelClass \yii\db\BaseActiveRecord */
+        $modelClass = $this->modelClass;
+
+        $query = $modelClass::find()->select(['{{user_collect}}.*','{{user}}.nickname','{{user}}.avatar'])
+            ->where(['c_uid'=>Yii::$app->getUser()->getIdentity()->getId()])
+            ->joinWith('user');
+        if (!empty($filter)) {
+//            if(!$filter->c_uid){
+//                $query->addFilterWhere('c_uid'=>Yii::$app->getUser()->getIdentity()->getId());
+//            }
+            $query->andWhere($filter);
+        }
+
+
+        $dataProvider = Yii::createObject([
+            'class' => ActiveDataProvider::className(),
             'query' => $query,
+            'pagination' => [
+                'params' => $requestParams,
+                'pageParam'=> 'page',
+                'pageSizeParam' => 'limit',
+                'defaultPageSize' => 20,
+            ],
             'sort' => [
                 'defaultOrder' => [
                     'created_at' => SORT_DESC,
                     'id' => SORT_DESC,
-                ]
-            ]
+                ],
+                'params' => $requestParams,
+            ],
         ]);
+
         return $dataProvider;
     }
-
 }

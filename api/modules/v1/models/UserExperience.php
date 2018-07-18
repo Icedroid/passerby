@@ -16,6 +16,7 @@ class UserExperience extends \common\models\UserExperience
     public function fields()
     {
         $fields = parent::fields();
+        unset($fields['start_date'], $fields['end_date']);
         return $fields;
     }
 
