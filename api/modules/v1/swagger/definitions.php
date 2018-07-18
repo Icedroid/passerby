@@ -69,7 +69,27 @@ namespace app\models\v1\swagger;
 /**
  * @SWG\Definition(
  *      definition="UserExperience",
+ * 		@SWG\Property(property="content", type="string", description="详细内容"),
+ * )
+ */
+
+/**
+ * @SWG\Definition(
+ *      definition="Help",
+ *     required={"content"},
  * 		@SWG\Property(property="content", type="string", description="经历内容"),
+ * 		@SWG\Property(property="is_emergency", type="integer", description="是否紧急 0-否 1-是"),
+ * 		@SWG\Property(property="is_pay", type="integer", description="是否愿意付费 0-否 1-是"),
+ * 		@SWG\Property(property="end_date", type="integer", description="截止日期，如20180101'"),
+ * )
+ */
+
+/**
+ * @SWG\Definition(
+ *      definition="HelpComment",
+ *     required={"help_id", "content"},
+ *     @SWG\Property(property="help_id", type="integer", description="求助帖子ID"),
+ * 		@SWG\Property(property="content", type="string", description="详细内容"),
  * )
  */
 

@@ -4,7 +4,6 @@ namespace api\modules\v1\controllers;
 
 use Yii;
 use yii\rest\ActiveController;
-use yii\rest\OptionsAction;
 use yii\rest\IndexAction;
 use yii\web\Response;
 use yii\filters\auth\HttpBearerAuth;
@@ -14,9 +13,9 @@ use yii\filters\auth\HttpBasicAuth;
 use yii\data\ActiveDataProvider;
 
 
-class UserExperienceController extends ActiveController
+class HelpController extends ActiveController
 {
-    public $modelClass = 'api\modules\v1\models\UserExperience';
+    public $modelClass = 'api\modules\v1\models\Help';
 //    public $serializer = [
 //        'class' => \yii\rest\Serializer::class,
 //        'collectionEnvelope' => 'items',
@@ -58,9 +57,9 @@ class UserExperienceController extends ActiveController
 
     /**
      *
-     * @SWG\Post(path="/user-experiences",
-     *     tags={"experience"},
-     *     summary="添加经历",
+     * @SWG\Post(path="/helps",
+     *     tags={"help"},
+     *     summary="添加求助",
      *     description="返回成功信息",
      *     produces={"application/json"},
      *     @SWG\Parameter(
@@ -73,9 +72,9 @@ class UserExperienceController extends ActiveController
      *     @SWG\Parameter(
      *        in = "body",
      *        name = "body",
-     *        description = "用户经历内容content",
+     *        description = "用户求助内容content",
      *        required = true,
-     *        @SWG\Schema(ref="#/definitions/UserExperience"),
+     *        @SWG\Schema(ref="#/definitions/Help"),
      *     ),
      *     @SWG\Response(
      *         response = 200,
@@ -87,15 +86,15 @@ class UserExperienceController extends ActiveController
 
     /**
      *
-     * @SWG\Post(path="/user-experiences/{id}",
-     *     tags={"experience"},
-     *     summary="更新用户经历",
+     * @SWG\Post(path="/helps/{id}",
+     *     tags={"help"},
+     *     summary="更新求助",
      *     description="返回成功信息",
      *     produces={"application/json"},
      *     @SWG\Parameter(
      *        in = "path",
      *        name = "id",
-     *        description = "经历ID",
+     *        description = "求助ID",
      *        required = true,
      *        type = "integer"
      *     ),
@@ -109,9 +108,9 @@ class UserExperienceController extends ActiveController
      *     @SWG\Parameter(
      *        in = "body",
      *        name = "body",
-     *        description = "用户经历内容content",
+     *        description = "求助内容content",
      *        required = true,
-     *        @SWG\Schema(ref="#/definitions/UserExperience"),
+     *        @SWG\Schema(ref="#/definitions/Help"),
      *     ),
      *     @SWG\Response(
      *         response = 200,
@@ -123,9 +122,9 @@ class UserExperienceController extends ActiveController
 
     /**
      *
-     * @SWG\Post(path="/user-experiences/delete/{id}",
-     *     tags={"experience"},
-     *     summary="删除经历",
+     * @SWG\Post(path="/helps/delete/{id}",
+     *     tags={"help"},
+     *     summary="删除求助",
      *     description="返回成功信息",
      *     produces={"application/json"},
      *     @SWG\Parameter(
@@ -138,7 +137,7 @@ class UserExperienceController extends ActiveController
      *     @SWG\Parameter(
      *        in = "path",
      *        name = "id",
-     *        description = "经历ID",
+     *        description = "求助ID",
      *        required = true,
      *        type = "integer"
      *     ),
@@ -147,7 +146,7 @@ class UserExperienceController extends ActiveController
      *        name = "body",
      *        description = "{}",
      *        required = true,
-     *        @SWG\Schema(ref="#/definitions/UserExperience"),
+     *        @SWG\Schema(ref="#/definitions/Help"),
      *     ),
      *     @SWG\Response(
      *         response = 200,
@@ -159,10 +158,10 @@ class UserExperienceController extends ActiveController
 
     /**
      *
-     * @SWG\Get(path="/user-experiences",
-     *     tags={"experience"},
-     *     summary="获取用户的所有经历列表",
-     *     description="返回用户经历列表",
+     * @SWG\Get(path="/helps",
+     *     tags={"help"},
+     *     summary="获取用户的所有求助列表",
+     *     description="返回求助列表",
      *     produces={"application/json"},
      *    @SWG\Parameter(
      *        in = "query",
@@ -174,7 +173,7 @@ class UserExperienceController extends ActiveController
      *     @SWG\Response(
      *         response = 200,
      *         description = " success",
-     *         @SWG\Schema(ref="#/definitions/UserExperience"),
+     *         @SWG\Schema(ref="#/definitions/Help"),
      *     )
      * )
      *
@@ -182,10 +181,10 @@ class UserExperienceController extends ActiveController
 
     /**
      *
-     * @SWG\Get(path="/user-experiences/{id}",
-     *     tags={"experience"},
-     *     summary="获取用户某一条经历",
-     *     description="返回一条用户经历",
+     * @SWG\Get(path="/helps/{id}",
+     *     tags={"help"},
+     *     summary="获取用户某一条求助",
+     *     description="返回一条求助",
      *     produces={"application/json"},
      *    @SWG\Parameter(
      *        in = "query",
@@ -197,14 +196,14 @@ class UserExperienceController extends ActiveController
      *    @SWG\Parameter(
      *        in = "path",
      *        name = "id",
-     *        description = "经历ID",
+     *        description = "求助ID",
      *        required = true,
      *        type = "integer"
      *     ),
      *     @SWG\Response(
      *         response = 200,
      *         description = " success",
-     *         @SWG\Schema(ref="#/definitions/UserExperience"),
+     *         @SWG\Schema(ref="#/definitions/Help"),
      *     )
      * )
      *
@@ -218,33 +217,69 @@ class UserExperienceController extends ActiveController
 
         // 使用"prepareDataProvider()"方法自定义数据provider
         $actions['index']['prepareDataProvider'] = [$this, 'prepareDataProvider'];
-//        $actions['index']['dataFilter'] = [
-//            'class' => \yii\data\ActiveDataFilter::class,
-//            'searchModel' => function () {
-//                return (new \yii\base\DynamicModel(['id' => null, 'uid' => null, 'c_uid' => null, 'status' => null]))
-//                    ->addRule('id', 'integer')
-//                    ->addRule('status', 'integer')
-//                    ->addRule('uid', 'integer')
-//                    ->addRule('c_uid', 'integer');
-//            },
-//            'filter' => ['c_uid' => ],
-//        ];
+        $actions['index']['dataFilter'] = [
+            'class' => \yii\data\ActiveDataFilter::class,
+            'filterAttributeName'=>'where',
+            'searchModel' => function () {
+                return (new \yii\base\DynamicModel(['id' => null, 'uid' => null, 'content' => null]))
+                    ->addRule('id', 'integer')
+                    ->addRule('uid', 'integer')
+                    ->addRule('content', 'trim')
+                    ->addRule('content', 'string');
+            },
+//            'filter' => ['c_uid' => Yii::$app->getUser()->getIdentity()->getId()],
+        ];
 
         return $actions;
     }
 
-    public function prepareDataProvider()
+    /**
+     * 参考IndexAction的prepareDataProvider来修改
+     *
+     * @param $action IndexAction
+     * @param $filter yii\data\ActiveDataFilter
+     * @return ActiveDataProvider
+     * @throws \Throwable
+     */
+    public function prepareDataProvider($action, $filter)
     {
-        $where = ['uid' => Yii::$app->getUser()->getIdentity()->getId()];
-        $query = ($this->modelClass)::find()->where($where);
-        $dataProvider = new ActiveDataProvider([
+        $requestParams = Yii::$app->getRequest()->getBodyParams();
+        if (empty($requestParams)) {
+            $requestParams = Yii::$app->getRequest()->getQueryParams();
+        }
+
+        /* @var $modelClass \yii\db\BaseActiveRecord */
+        $modelClass = $this->modelClass;
+
+        $query = $modelClass::find()->select(['{{help}}.*','{{user}}.nickname','{{user}}.avatar'])
+            ->where(['uid'=>Yii::$app->getUser()->getIdentity()->getId()])
+            ->joinWith('user');
+        if (!empty($filter)) {
+//            if(!$filter->c_uid){
+//                $query->addFilterWhere('c_uid'=>Yii::$app->getUser()->getIdentity()->getId());
+//            }
+            $query->andWhere($filter);
+        }
+
+
+        $dataProvider = Yii::createObject([
+            'class' => ActiveDataProvider::className(),
             'query' => $query,
+            'pagination' => [
+                'params' => $requestParams,
+                'pageParam'=> 'page',
+                'pageSizeParam' => 'limit',
+                'defaultPageSize' => 20,
+            ],
             'sort' => [
                 'defaultOrder' => [
+                    'created_at' => SORT_DESC,
                     'id' => SORT_DESC,
-                ]
-            ]
+                ],
+                'params' => $requestParams,
+            ],
         ]);
+
         return $dataProvider;
     }
 

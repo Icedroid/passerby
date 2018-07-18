@@ -19,10 +19,22 @@ namespace api\modules\v1\swagger;
  * @SWG\Tag(
  *   name="user",
  *   description="用户接口列表",
- *   @SWG\ExternalDocumentation(
- *     description="Find out more about our store",
- *     url="http://swagger.io"
- *   )
+ * )
+ *
+ * @SWG\Tag(
+ *   name="collect",
+ *   description="用户收藏接口列表",
+
+ * )
+ *
+ *  @SWG\Tag(
+ *   name="experience",
+ *   description="用户经历接口列表",
+ * )
+ *
+ * @SWG\Tag(
+ *   name="help",
+ *   description="求助接口列表",
  * )
  */
 

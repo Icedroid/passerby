@@ -60,7 +60,7 @@ class UserCollectController extends ActiveController
     /**
      *
      * @SWG\Post(path="/user-collects",
-     *     tags={"user"},
+     *     tags={"collect"},
      *     summary="收藏用户",
      *     description="返回成功信息",
      *     produces={"application/json"},
@@ -89,7 +89,7 @@ class UserCollectController extends ActiveController
     /**
      *
      * @SWG\Post(path="/user-collects/{id}",
-     *     tags={"user"},
+     *     tags={"collect"},
      *     summary="更新收藏的备注",
      *     description="返回成功信息",
      *     produces={"application/json"},
@@ -125,7 +125,7 @@ class UserCollectController extends ActiveController
     /**
      *
      * @SWG\Post(path="/user-collects/delete/{id}",
-     *     tags={"user"},
+     *     tags={"collect"},
      *     summary="取消收藏",
      *     description="返回成功信息",
      *     produces={"application/json"},
@@ -161,7 +161,7 @@ class UserCollectController extends ActiveController
     /**
      *
      * @SWG\Get(path="/user-collects",
-     *     tags={"user"},
+     *     tags={"collect"},
      *     summary="获取用户的所有收藏用户列表",
      *     description="返回收藏用户列表",
      *     produces={"application/json"},

@@ -59,7 +59,7 @@ return [
                 'GET v1/login' => 'v1/default/login',
                 [
                     'class' => yii\rest\UrlRule::className(),
-                    'controller' => ['v1/user-collect', 'v1/user-experience'],
+                    'controller' => ['v1/user-collect', 'v1/user-experience', 'v1/help', 'v1/help-comment'],
                     'patterns' => [
                         'POST {id}' => 'update',
                         'POST delete/{id}' => 'delete',

@@ -108,3 +108,64 @@ Content-Type: application/json
 }
 
 ###
+
+GET http://passerby.cn/api/v1/helps?access-token=testaf448c3cd7f250e0635c39a0test
+Accept: application/json
+
+###
+
+GET http://passerby.cn/api/v1/helps/2?access-token=testaf448c3cd7f250e0635c39a0test
+Accept: application/json
+
+###
+
+POST http://passerby.cn/api/v1/helps?access-token=testaf448c3cd7f250e0635c39a0test
+Content-Type: application/json
+
+{
+  "is_emergency": 1,
+  "is_pay": 1,
+  "end_date": 20190101,
+  "content": "这是一条很长长的内容这是一条很长长的内容这是一条很长长的内容这是一条很长长的内容"
+}
+
+###
+
+POST http://passerby.cn/api/v1/helps/2?access-token=testaf448c3cd7f250e0635c39a0test
+Content-Type: application/json
+
+{
+  "content": "这是一条很长长的工作经历这是一条很长长的工作经历这是一条很长长的工作经历"
+}
+
+###
+
+
+GET http://passerby.cn/api/v1/help-comments?access-token=testaf448c3cd7f250e0635c39a0test&where[help_id]=3
+Accept: application/json
+
+###
+
+GET http://passerby.cn/api/v1/help-comments/2?access-token=testaf448c3cd7f250e0635c39a0test
+Accept: application/json
+
+###
+
+POST http://passerby.cn/api/v1/help-comments?access-token=testaf448c3cd7f250e0635c39a0test
+Content-Type: application/json
+
+{
+  "help_id": 3,
+  "content": "这是一条很长长的内容这是一条很长长的内容这是一条很长长的内容这是一条很长长的内容"
+}
+
+###
+
+POST http://passerby.cn/api/v1/help-comments/2?access-token=testaf448c3cd7f250e0635c39a0test
+Content-Type: application/json
+
+{
+  "content": "这是一条很长长的工作经历这是一条很长长的工作经历这是一条很长长的工作经历"
+}
+
+###
