@@ -8,7 +8,7 @@ $params = array_merge(
 return [
     'id' => 'Passerby API',
     'basePath' => dirname(__DIR__),
-//    'language' => 'zh-CN',//默认语言
+    'language' => 'zh-CN',//默认语言
     'timeZone' => 'Asia/Shanghai',//默认时区
     'bootstrap' => ['log'],
     'modules' => [
@@ -123,12 +123,17 @@ return [
                         'msg' => $response->statusText,
                         'data' => $data,
                     ];
+                    if ($response->statusCode == 201){
+                        $response->setStatusCode(200);
+                        $response->getHeaders()->remove('Location');
+                        return;
+                    }
                     if (!$response->isSuccessful) {
                         if (!empty($data) && is_array($data)) {
                             //422: 数据验证失败 (例如，响应一个 POST 请求)。 请检查响应体内详细的错误消息。
                             if ($response->statusCode == 422 && isset($data[0]) && isset($data[0]['message'])) {
                                 $response->data['msg'] = $data[0]['message'];
-                            } elseif (isset($data['message'])) {
+                            }elseif (isset($data['message'])) {
                                 $response->data['msg'] = $data['message'];
                             }
                             $response->data['data'] = [];

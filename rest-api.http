@@ -11,8 +11,7 @@ Accept: application/json
 
 ###
 
-#GET http://passerby.cn/api/v1/users?access-token=testaf448c3cd7f250e0635c39a0test&where[nickname][like]=小
-GET http://passerby.cn/api/v1/users?access-token=testaf448c3cd7f250e0635c39a0test&where={nickname:小}
+GET http://passerby.cn/api/v1/users?access-token=testaf448c3cd7f250e0635c39a0test&where[nickname][like]=小
 Accept: application/json
 
 ###
