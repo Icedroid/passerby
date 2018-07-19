@@ -3,6 +3,34 @@
 namespace app\models\v1\swagger;
 
 /**
+ * @SWG\Tag(
+ *   name="user",
+ *   description="用户接口列表",
+ * )
+ *
+ * @SWG\Tag(
+ *   name="collect",
+ *   description="用户收藏接口列表",
+ * )
+ *
+ * @SWG\Tag(
+ *   name="experience",
+ *   description="用户经历接口列表",
+ * )
+ *
+ * @SWG\Tag(
+ *   name="help",
+ *   description="求助接口列表",
+ * )
+ *
+ * @SWG\Tag(
+ *   name="star",
+ *   description="评分接口列表",
+ * )
+ */
+
+
+ /**
  * @SWG\Definition(
  *      definition="Error",
  *      required={"code", "msg", "data"},
@@ -41,11 +69,11 @@ namespace app\models\v1\swagger;
  */
 
 /**
- * userInfo	OBJECT	用户信息对象，不包含 openid 等敏感信息
- * rawData	String	不包括敏感信息的原始数据字符串，用于计算签名。
- * signature	String	使用 sha1( rawData + sessionkey ) 得到字符串，用于校验用户信息，参考文档 signature。
- * encryptedData	String	包括敏感数据在内的完整用户信息的加密数据，详细见加密数据解密算法
- * iv	String	加密算法的初始向量，详细见加密数据解密算法
+ * userInfo    OBJECT    用户信息对象，不包含 openid 等敏感信息
+ * rawData    String    不包括敏感信息的原始数据字符串，用于计算签名。
+ * signature    String    使用 sha1( rawData + sessionkey ) 得到字符串，用于校验用户信息，参考文档 signature。
+ * encryptedData    String    包括敏感数据在内的完整用户信息的加密数据，详细见加密数据解密算法
+ * iv    String    加密算法的初始向量，详细见加密数据解密算法
  *
  * @SWG\Definition(
  *      definition="WechatUser",
@@ -105,7 +133,7 @@ namespace app\models\v1\swagger;
  * )
  */
 
- /**
+/**
  * @SWG\Definition(required={"id"}, @SWG\Xml(name="Id"))
  */
 class Id

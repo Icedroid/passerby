@@ -4,8 +4,8 @@ namespace api\modules\v1\swagger;
 
 /**
  * @SWG\Swagger(
- *     schemes={"http"},
- *     host="passerby.cn",
+ *     schemes={"https"},
+ *     host="api.cngoldwashing.com",
  *     basePath="/api/v1",
  *     @SWG\Info(
  *         version="1.0.0",
@@ -15,27 +15,6 @@ namespace api\modules\v1\swagger;
  *     ),
  * )
  *
- *
- * @SWG\Tag(
- *   name="user",
- *   description="用户接口列表",
- * )
- *
- * @SWG\Tag(
- *   name="collect",
- *   description="用户收藏接口列表",
-
- * )
- *
- *  @SWG\Tag(
- *   name="experience",
- *   description="用户经历接口列表",
- * )
- *
- * @SWG\Tag(
- *   name="help",
- *   description="求助接口列表",
- * )
  */
 
 

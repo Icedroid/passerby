@@ -41,13 +41,4 @@ class HelpComment extends \common\models\HelpComment
         return parent::beforeValidate();
     }
 
-    public function getUser()
-    {
-        return $this->hasOne(User::className(), ['id' => 'uid']);
-    }
-
-    public function getHelp()
-    {
-        return $this->hasOne(Help::className(), ['id' => 'help_id']);
-    }
 }

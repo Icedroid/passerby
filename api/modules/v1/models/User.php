@@ -21,6 +21,9 @@ class User extends \common\models\User implements IdentityInterface
         $fields['price'] = function ($model) {
             return intval($model->price);
         };
+        $fields['birthday'] = function ($model) {
+            return date("Y-m-d", strtotime($model->birthday));
+        };
         $fields['star'] = function ($model) {
             return intval($model->star * 100);
         };

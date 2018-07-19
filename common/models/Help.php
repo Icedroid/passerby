@@ -65,4 +65,15 @@ class Help extends \yii\db\ActiveRecord
             'updated_at' => Yii::t('app', 'Updated At'),
         ];
     }
+
+
+    public function getUser()
+    {
+        return $this->hasOne(User::className(), ['id' => 'uid']);
+    }
+
+    public function getComments()
+    {
+        return $this->hasMany(HelpComment::className(), ['id' => 'help_id']);
+    }
 }
