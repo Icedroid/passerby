@@ -27,6 +27,9 @@ class HelpComment extends \common\models\HelpComment
         $fields['avatar'] = function ($model) {
             return $model->user->avatar;
         };
+        $fields['job'] = function ($model) {
+            return $model->user->job;
+        };
         return $fields;
     }
 

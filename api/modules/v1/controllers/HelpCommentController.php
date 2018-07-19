@@ -258,7 +258,7 @@ class HelpCommentController extends ActiveController
         $modelClass = $this->modelClass;
 
         $where = ['uid'=>Yii::$app->getUser()->getIdentity()->getId()];
-        $query = $modelClass::find()->select(['{{help_comment}}.*','{{user}}.nickname','{{user}}.avatar'])
+        $query = $modelClass::find()->select(['{{help_comment}}.*','{{user}}.nickname','{{user}}.avatar', '{{user}}.job'])
             ->where($where)
             ->joinWith('user');
         if (!empty($filter)) {
