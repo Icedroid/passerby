@@ -47,7 +47,7 @@ class UserStar extends \yii\db\ActiveRecord
     {
         return [
             [['uid', 'star_uid', 'understand', 'help', 'reason', 'created_at', 'updated_at'], 'integer'],
-            [['content'], 'required'],
+//            [['content'], 'required'],
             [['content'], 'string'],
             ['understand', 'in', 'range' => [1, 2, 3, 4, 5]],
             ['help', 'in', 'range' => [1, 2, 3, 4, 5]],
