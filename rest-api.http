@@ -16,7 +16,7 @@ Accept: application/json
 
 ###
 
-GET http://passerby.test/api/v1/users/7?access-token=59a1af448c3cd7f250e0635c39a05a5a
+GET http://passerby.test/api/v1/users/2?access-token=59a1af448c3cd7f250e0635c39a05a5a
 Accept: application/json
 
 ###
@@ -168,6 +168,19 @@ POST http://passerby.test/api/v1/help-comments/2?access-token=testaf448c3cd7f250
 Content-Type: application/json
 
 {
+  "content": "这是一条很长长的工作经历这是一条很长长的工作经历这是一条很长长的工作经历"
+}
+
+###
+
+POST http://passerby.test/api/v1/user-stars?access-token=testaf448c3cd7f250e0635c39a0test
+Content-Type: application/json
+
+{
+  "uid": 2,
+  "understand": 2,
+  "help": 4,
+  "reason": 2,
   "content": "这是一条很长长的工作经历这是一条很长长的工作经历这是一条很长长的工作经历"
 }
 

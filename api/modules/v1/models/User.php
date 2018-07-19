@@ -21,6 +21,9 @@ class User extends \common\models\User implements IdentityInterface
         $fields['price'] = function ($model) {
             return intval($model->price);
         };
+        $fields['star'] = function ($model) {
+            return intval($model->star * 100);
+        };
 //        $fields['access_token'] = 'auth_key';
         return $fields;
     }

@@ -93,6 +93,18 @@ namespace app\models\v1\swagger;
  * )
  */
 
+/**
+ * @SWG\Definition(
+ *      definition="UserStar",
+ *     required={"uid", "content"},
+ *     @SWG\Property(property="uid", type="integer", description="被评分的用户ID"),
+ *     @SWG\Property(property="understand", type="integer", description="尊重理解，值为1-5"),
+ *     @SWG\Property(property="help", type="integer", description="有帮助，值为1-5"),
+ *     @SWG\Property(property="reason", type="integer", description="靠谱，值为1-5"),
+ * 	   @SWG\Property(property="content", type="string", description="评价内容"),
+ * )
+ */
+
  /**
  * @SWG\Definition(required={"id"}, @SWG\Xml(name="Id"))
  */
