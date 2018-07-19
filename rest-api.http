@@ -6,22 +6,22 @@
 # * 'mptr' and 'fptr' create a POST request to submit a form with a text or file field (multipart/form-data);
 
 
-GET http://passerby.cn/api/v1/login?code=test
+GET http://passerby.test/api/v1/login?code=test
 Accept: application/json
 
 ###
 
-GET http://passerby.cn/api/v1/users?access-token=testaf448c3cd7f250e0635c39a0test&where[nickname][like]=小
+GET http://passerby.test/api/v1/users?access-token=testaf448c3cd7f250e0635c39a0test&where[nickname][like]=小
 Accept: application/json
 
 ###
 
-GET http://passerby.cn/api/v1/users/7?access-token=59a1af448c3cd7f250e0635c39a05a5a
+GET http://passerby.test/api/v1/users/7?access-token=59a1af448c3cd7f250e0635c39a05a5a
 Accept: application/json
 
 ###
 
-POST http://passerby.cn/api/v1/users/wechat?access-token=testaf448c3cd7f250e0635c39a0test
+POST http://passerby.test/api/v1/users/wechat?access-token=testaf448c3cd7f250e0635c39a0test
 Content-Type: application/json
 
 {
@@ -33,28 +33,31 @@ Content-Type: application/json
 
 ###
 
-POST http://passerby.cn/api/v1/users?access-token=59a1af448c3cd7f250e0635c39a05a5a
+POST http://passerby.test/api/v1/users?access-token=59a1af448c3cd7f250e0635c39a05a5a
 Content-Type: application/json
 
 {
-  "username": "test2",
+  "username": "test3",
   "nickname": "小猪费奇2",
   "avatar": "uploads/3.png",
   "gender": 1,
-  "birthday": 1992,
+  "birthday": 19920120,
   "education": 0,
   "marriage": 1,
-  "job": "工程师"
+  "job": "工程师",
+  "hobby": "打蓝球",
+  "price": 1
+
 }
 
 ###
 
-GET http://passerby.cn/api/v1/user-collects?access-token=testaf448c3cd7f250e0635c39a0test&page=1
+GET http://passerby.test/api/v1/user-collects?access-token=testaf448c3cd7f250e0635c39a0test&page=1
 Accept: application/json
 
 ###
 
-POST http://passerby.cn/api/v1/user-collects?access-token=testaf448c3cd7f250e0635c39a0test
+POST http://passerby.test/api/v1/user-collects?access-token=testaf448c3cd7f250e0635c39a0test
 Content-Type: application/json
 
 {
@@ -64,7 +67,7 @@ Content-Type: application/json
 
 ###
 
-POST http://passerby.cn/api/v1/user-collects/1?access-token=testaf448c3cd7f250e0635c39a0test
+POST http://passerby.test/api/v1/user-collects/1?access-token=testaf448c3cd7f250e0635c39a0test
 Content-Type: application/json
 
 {
@@ -73,7 +76,7 @@ Content-Type: application/json
 
 ###
 
-POST http://passerby.cn/api/v1/user-collects/delete/1?access-token=testaf448c3cd7f250e0635c39a0test
+POST http://passerby.test/api/v1/user-collects/delete/1?access-token=testaf448c3cd7f250e0635c39a0test
 Content-Type: application/json
 
 {
@@ -81,17 +84,17 @@ Content-Type: application/json
 
 ###
 
-GET http://passerby.cn/api/v1/user-experiences?access-token=testaf448c3cd7f250e0635c39a0test
+GET http://passerby.test/api/v1/user-experiences?access-token=testaf448c3cd7f250e0635c39a0test
 Accept: application/json
 
 ###
 
-GET http://passerby.cn/api/v1/user-experiences/2?access-token=testaf448c3cd7f250e0635c39a0test
+GET http://passerby.test/api/v1/user-experiences/2?access-token=testaf448c3cd7f250e0635c39a0test
 Accept: application/json
 
 ###
 
-POST http://passerby.cn/api/v1/user-experiences?access-token=testaf448c3cd7f250e0635c39a0test
+POST http://passerby.test/api/v1/user-experiences?access-token=testaf448c3cd7f250e0635c39a0test
 Content-Type: application/json
 
 {
@@ -100,7 +103,7 @@ Content-Type: application/json
 
 ###
 
-POST http://passerby.cn/api/v1/user-experiences/2?access-token=testaf448c3cd7f250e0635c39a0test
+POST http://passerby.test/api/v1/user-experiences/2?access-token=testaf448c3cd7f250e0635c39a0test
 Content-Type: application/json
 
 {
@@ -109,17 +112,17 @@ Content-Type: application/json
 
 ###
 
-GET http://passerby.cn/api/v1/helps?access-token=testaf448c3cd7f250e0635c39a0test
+GET http://passerby.test/api/v1/helps?access-token=testaf448c3cd7f250e0635c39a0test
 Accept: application/json
 
 ###
 
-GET http://passerby.cn/api/v1/helps/2?access-token=testaf448c3cd7f250e0635c39a0test
+GET http://passerby.test/api/v1/helps/2?access-token=testaf448c3cd7f250e0635c39a0test
 Accept: application/json
 
 ###
 
-POST http://passerby.cn/api/v1/helps?access-token=testaf448c3cd7f250e0635c39a0test
+POST http://passerby.test/api/v1/helps?access-token=testaf448c3cd7f250e0635c39a0test
 Content-Type: application/json
 
 {
@@ -131,7 +134,7 @@ Content-Type: application/json
 
 ###
 
-POST http://passerby.cn/api/v1/helps/2?access-token=testaf448c3cd7f250e0635c39a0test
+POST http://passerby.test/api/v1/helps/2?access-token=testaf448c3cd7f250e0635c39a0test
 Content-Type: application/json
 
 {
@@ -141,17 +144,17 @@ Content-Type: application/json
 ###
 
 
-GET http://passerby.cn/api/v1/help-comments?access-token=testaf448c3cd7f250e0635c39a0test&where[help_id]=3
+GET http://passerby.test/api/v1/help-comments?access-token=testaf448c3cd7f250e0635c39a0test&where[help_id]=3
 Accept: application/json
 
 ###
 
-GET http://passerby.cn/api/v1/help-comments/2?access-token=testaf448c3cd7f250e0635c39a0test
+GET http://passerby.test/api/v1/help-comments/2?access-token=testaf448c3cd7f250e0635c39a0test
 Accept: application/json
 
 ###
 
-POST http://passerby.cn/api/v1/help-comments?access-token=testaf448c3cd7f250e0635c39a0test
+POST http://passerby.test/api/v1/help-comments?access-token=testaf448c3cd7f250e0635c39a0test
 Content-Type: application/json
 
 {
@@ -161,7 +164,7 @@ Content-Type: application/json
 
 ###
 
-POST http://passerby.cn/api/v1/help-comments/2?access-token=testaf448c3cd7f250e0635c39a0test
+POST http://passerby.test/api/v1/help-comments/2?access-token=testaf448c3cd7f250e0635c39a0test
 Content-Type: application/json
 
 {

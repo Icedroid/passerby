@@ -218,7 +218,7 @@ class UserController extends ActiveController
             'class' => \yii\data\ActiveDataFilter::class,
             'filterAttributeName' => 'where',
             'searchModel' => function () {
-                return (new \yii\base\DynamicModel(['id' => null, 'status' => null, 'nickname' => null, ]))
+                return (new \yii\base\DynamicModel(['id' => null, 'status' => null, 'nickname' => null,]))
                     ->addRule('id', 'integer')
                     ->addRule('status', 'integer')
                     ->addRule('nickname', 'trim')
@@ -257,7 +257,7 @@ class UserController extends ActiveController
             'query' => $query,
             'pagination' => [
                 'params' => $requestParams,
-                'pageParam'=> 'page',
+                'pageParam' => 'page',
                 'pageSizeParam' => 'limit',
                 'defaultPageSize' => 20,
             ],
