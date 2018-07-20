@@ -221,9 +221,11 @@ class HelpController extends ActiveController
             'class' => \yii\data\ActiveDataFilter::class,
             'filterAttributeName'=>'where',
             'searchModel' => function () {
-                return (new \yii\base\DynamicModel(['id' => null, 'uid' => null, 'content' => null]))
+                return (new \yii\base\DynamicModel(['id' => null, 'uid' => null, 'is_emergency' => null, 'is_pay'=>null, 'content' => null]))
                     ->addRule('id', 'integer')
                     ->addRule('uid', 'integer')
+                    ->addRule('is_emergency', 'integer')
+                    ->addRule('is_pay', 'integer')
                     ->addRule('content', 'trim')
                     ->addRule('content', 'string');
             },
@@ -252,7 +254,7 @@ class HelpController extends ActiveController
         $modelClass = $this->modelClass;
 
         $query = $modelClass::find()->select(['{{help}}.*','{{user}}.nickname','{{user}}.avatar'])
-            ->where(['uid'=>Yii::$app->getUser()->getIdentity()->getId()])
+            ->where([])
             ->joinWith('user');
         if (!empty($filter)) {
 //            if(!$filter->c_uid){
@@ -273,7 +275,6 @@ class HelpController extends ActiveController
             ],
             'sort' => [
                 'defaultOrder' => [
-                    'created_at' => SORT_DESC,
                     'id' => SORT_DESC,
                 ],
                 'params' => $requestParams,

@@ -122,6 +122,11 @@ Accept: application/json
 
 ###
 
+GET http://passerby.test/api/v1/helps?access-token=testaf448c3cd7f250e0635c39a0test&where[uid]=8&where[is_emergency]=1&where[is_pay]=1&where[content][like]=工作&sort=-end_date
+Accept: application/json
+
+###
+
 GET http://passerby.test/api/v1/helps/2?access-token=testaf448c3cd7f250e0635c39a0test
 Accept: application/json
 
