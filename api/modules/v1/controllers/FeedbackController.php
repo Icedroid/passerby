@@ -76,7 +76,7 @@ class FeedbackController extends ActiveController
      *        name = "content",
      *        description = "内容content",
      *        required = true,
-     *        @SWG\Schema(ref="#/definitions/Help"),
+     *        @SWG\Schema(ref="#/definitions/UserExperience"),
      *     ),
      *     @SWG\Response(
      *         response = 200,
