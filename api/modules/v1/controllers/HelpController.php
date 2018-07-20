@@ -212,7 +212,7 @@ class HelpController extends ActiveController
      *    @SWG\Parameter(
      *        in = "query",
      *        name = "comment_count",
-     *        description = "回复少 comment_count = 0  回复多 comment_count = 1
+     *        description = "回复少 comment_count = 0  回复多 comment_count = 1",
      *        required = false,
      *        type = "string"
      *     ),
