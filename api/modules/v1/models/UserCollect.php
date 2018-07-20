@@ -34,4 +34,15 @@ class UserCollect extends \common\models\UserCollect
         }
         return parent::beforeValidate();
     }
+
+    /**
+     * uid 是否被$collectUid收藏了
+     * @param $uid
+     * @param $collectUid
+     */
+    public static function isCollected($uid, $collectUid)
+    {
+        $model = self::findOne(['uid'=>$uid, 'c_uid'=>$collectUid]);
+        return $model !== NULL;
+    }
 }

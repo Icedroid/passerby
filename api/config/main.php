@@ -78,6 +78,7 @@ return [
                     ],
                     'extraPatterns' => [
                         'POST wechat' => 'update-by-wechat',
+                        'GET profile' => 'profile',
                     ],
                 ],
             ],

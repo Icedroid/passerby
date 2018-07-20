@@ -58,7 +58,7 @@ class User extends ActiveRecord implements IdentityInterface
             [['gender', 'birthday', 'education', 'marriage', 'children','is_special', 'status', 'created_at', 'updated_at'], 'integer'],
             [['auth_key', 'openid', 'session_key', 'avatar', 'nickname', 'job', 'hobby'], 'string', 'max' => 255],
 //            ['price', 'match', 'pattern'=>'/^[0-9]{1,12}(\.[0-9]{0,4})?$/'],
-            [['star_count'], 'integer'],
+            [['star_count', 'view_count'], 'integer'],
             [['star', 'price'], 'number'],
             [['auth_key'], 'unique'],
             [['openid'], 'unique'],

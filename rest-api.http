@@ -16,7 +16,12 @@ Accept: application/json
 
 ###
 
-GET http://passerby.test/api/v1/users/2?access-token=59a1af448c3cd7f250e0635c39a05a5a
+GET http://passerby.test/api/v1/users/1?access-token=testaf448c3cd7f250e0635c39a0test
+Accept: application/json
+
+###
+
+GET http://passerby.test/api/v1/users/profile?access-token=testaf448c3cd7f250e0635c39a0test
 Accept: application/json
 
 ###
@@ -182,7 +187,7 @@ POST http://passerby.test/api/v1/user-stars?access-token=testaf448c3cd7f250e0635
 Content-Type: application/json
 
 {
-  "uid": 2,
+  "uid": 1,
   "understand": 2,
   "help": 5,
   "reason": 5,

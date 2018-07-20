@@ -13,20 +13,23 @@ use yii\web\IdentityInterface;
 
 class User extends \common\models\User implements IdentityInterface
 {
+    public $is_collected = false;
 
     public function fields()
     {
         $fields = parent::fields();
-        unset($fields['auth_key'], $fields['openid'], $fields['session_key'], $fields['status'], $fields['created_at'], $fields['updated_at']);
+        unset($fields['auth_key'], $fields['openid'], $fields['session_key'], $fields['status'], $fields['star'], $fields['star_count'],
+            $fields['view_count'], $fields['created_at'], $fields['updated_at']);
         $fields['price'] = function ($model) {
             return intval($model->price);
         };
         $fields['birthday'] = function ($model) {
             return date("Y-m-d", strtotime($model->birthday));
         };
-        $fields['star'] = function ($model) {
-            return intval($model->star * 100);
-        };
+//        $fields['star'] = function ($model) {
+//            return intval($model->star * 100);
+//        };
+        $fields['is_collected'] = 'is_collected';
 //        $fields['access_token'] = 'auth_key';
         return $fields;
     }
@@ -46,6 +49,18 @@ class User extends \common\models\User implements IdentityInterface
 //        }
 
         return parent::beforeValidate();
+    }
+
+    /**
+     * @inheritdoc
+     */
+    public function afterFind()
+    {
+        if (!Yii::$app->getUser()->getIsGuest()) {
+            $loginUserId = Yii::$app->getUser()->getIdentity()->getId();
+            $this->is_collected = UserCollect::isCollected($this->id, $loginUserId);
+        }
+        parent::afterFind();
     }
 
     /**
