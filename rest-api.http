@@ -184,8 +184,8 @@ Content-Type: application/json
 {
   "uid": 2,
   "understand": 2,
-  "help": 4,
-  "reason": 2,
+  "help": 5,
+  "reason": 5,
   "content": "这是一条很长长的工作经历这是一条很长长的工作经历这是一条很长长的工作经历"
 }
 

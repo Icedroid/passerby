@@ -61,7 +61,7 @@ class UserStar extends \common\models\UserStar
     public function transactions()
     {
         return [
-            'create' => self::OP_INSERT,
+            self::SCENARIO_DEFAULT => self::OP_INSERT | self::OP_UPDATE,
         ];
     }
 
