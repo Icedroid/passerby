@@ -60,7 +60,7 @@ return [
                 'GET v1/helps/search' => 'v1/help/search',
                 [
                     'class' => yii\rest\UrlRule::className(),
-                    'controller' => ['v1/user-collect', 'v1/user-experience', 'v1/help', 'v1/help-comment', 'v1/user-star'],
+                    'controller' => ['v1/user-collect', 'v1/user-experience', 'v1/help', 'v1/help-comment', 'v1/user-star', 'v1/feedback'],
                     'patterns' => [
                         'POST {id}' => 'update',
                         'POST delete/{id}' => 'delete',

@@ -73,7 +73,7 @@ class HelpController extends ActiveController
      *     ),
      *     @SWG\Parameter(
      *        in = "body",
-     *        name = "body",
+     *        name = "content",
      *        description = "用户求助内容content",
      *        required = true,
      *        @SWG\Schema(ref="#/definitions/Help"),
@@ -193,6 +193,41 @@ class HelpController extends ActiveController
      *        name = "access-token",
      *        description = "access-token",
      *        required = true,
+     *        type = "string"
+     *     ),
+     *    @SWG\Parameter(
+     *        in = "query",
+     *        name = "is_emergency",
+     *        description = "紧急is_emergency=1 不紧急is_emergency=0全部 不用传",
+     *        required = false,
+     *        type = "string"
+     *     ),
+     *    @SWG\Parameter(
+     *        in = "query",
+     *        name = "is_pay",
+     *        description = "愿意付费is_pay=1 不愿意 is_pay=0 全部 不用传",
+     *        required = false,
+     *        type = "string"
+     *     ),
+     *    @SWG\Parameter(
+     *        in = "query",
+     *        name = "comment_count",
+     *        description = "回复少 comment_count = 0  回复多 comment_count = 1
+     *        required = false,
+     *        type = "string"
+     *     ),
+     *    @SWG\Parameter(
+     *        in = "query",
+     *        name = "end_date",
+     *        description = "最新 end_date=0 截止 end_date=1 全部 end_date=2",
+     *        required = false,
+     *        type = "string"
+     *     ),
+     *     @SWG\Parameter(
+     *        in = "query",
+     *        name = "content",
+     *        description = "内容关键字",
+     *        required = false,
      *        type = "string"
      *     ),
      *     @SWG\Response(

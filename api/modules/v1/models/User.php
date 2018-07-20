@@ -19,7 +19,7 @@ class User extends \common\models\User implements IdentityInterface
     {
         $fields = parent::fields();
         unset($fields['auth_key'], $fields['openid'], $fields['session_key'], $fields['status'], $fields['star'], $fields['star_count'],
-            $fields['view_count'], $fields['created_at'], $fields['updated_at']);
+            $fields['view_count'], $fields['help_count'], $fields['experience_count'], $fields['created_at'], $fields['updated_at']);
         $fields['price'] = function ($model) {
             return intval($model->price);
         };

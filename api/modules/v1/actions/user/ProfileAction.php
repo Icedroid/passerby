@@ -33,9 +33,11 @@ class ProfileAction extends Action
         $fields['collect_count'] = function ($model){//被收藏数
             return intval(UserCollect::find()->where(['uid'=>$model->id])->count('id'));
         };
-        $fields['help_count'] = function ($model){//咨询次数
-            return intval(Help::find()->where(['uid'=>$model->id])->count('id'));
-        };
+        $fields['help_count'] = 'help_count'; //咨询次数
+
+//        $fields['help_count'] = function ($model){//咨询次数
+//            return intval(Help::find()->where(['uid'=>$model->id])->count('id'));
+//        };
         $fields['star'] = function ($model) {//好评值
             return intval($model->star * 100);
         };

@@ -71,7 +71,7 @@ class HelpCommentController extends ActiveController
      *     ),
      *     @SWG\Parameter(
      *        in = "body",
-     *        name = "body",
+     *        name = "content",
      *        description = "用户求助评论内容content",
      *        required = true,
      *        @SWG\Schema(ref="#/definitions/HelpComment"),

@@ -2,6 +2,8 @@
 
 namespace api\modules\v1\controllers;
 
+use common\helpers\ResponseHelper;
+use common\models\UserExperience;
 use Yii;
 use yii\db\ActiveRecord;
 use yii\rest\ActiveController;
@@ -135,8 +137,22 @@ class UserController extends ActiveController
      *     produces={"application/json"},
      *     @SWG\Parameter(
      *        in = "query",
-     *        name = "nickname",
+     *        name = "q",
      *        description = "查询条件",
+     *        required = false,
+     *        type = "string"
+     *     ),
+     *     @SWG\Parameter(
+     *        in = "query",
+     *        name = "online",
+     *        description = "0-全部 1-在线 2-不在线",
+     *        required = false,
+     *        type = "integer"
+     *     ),
+     *     @SWG\Parameter(
+     *        in = "query",
+     *        name = "order",
+     *        description = "排序条件 0-默认 1-经验丰富 2-咨询次数多 3-评价好 4-咨询单价低 5-咨询单价高",
      *        required = false,
      *        type = "string"
      *     ),
@@ -242,19 +258,19 @@ class UserController extends ActiveController
         ];
 
         // 使用"prepareDataProvider()"方法自定义数据provider
-//        $actions['index']['prepareDataProvider'] = [$this, 'prepareDataProvider'];
-        $actions['index']['dataFilter'] = [
-            'class' => \yii\data\ActiveDataFilter::class,
-            'filterAttributeName' => 'where',
-            'searchModel' => function () {
-                return (new \yii\base\DynamicModel(['id' => null, 'status' => null, 'nickname' => null,]))
-                    ->addRule('id', 'integer')
-                    ->addRule('status', 'integer')
-                    ->addRule('nickname', 'trim')
-                    ->addRule('nickname', 'string');
-            },
-            'filter' => ['status' => ($this->modelClass)::STATUS_ACTIVE],
-        ];
+        $actions['index']['prepareDataProvider'] = [$this, 'prepareDataProvider'];
+//        $actions['index']['dataFilter'] = [
+//            'class' => \yii\data\ActiveDataFilter::class,
+//            'filterAttributeName' => 'where',
+//            'searchModel' => function () {
+//                return (new \yii\base\DynamicModel(['id' => null, 'status' => null, 'nickname' => null,]))
+//                    ->addRule('id', 'integer')
+//                    ->addRule('status', 'integer')
+//                    ->addRule('nickname', 'trim')
+//                    ->addRule('nickname', 'string');
+//            },
+//            'filter' => ['status' => ($this->modelClass)::STATUS_ACTIVE],
+//        ];
 
         return $actions;
     }
@@ -269,37 +285,85 @@ class UserController extends ActiveController
      */
     public function prepareDataProvider($action, $filter)
     {
-        $requestParams = Yii::$app->getRequest()->getBodyParams();
-        if (empty($requestParams)) {
-            $requestParams = Yii::$app->getRequest()->getQueryParams();
-        }
+        $params = Yii::$app->getRequest()->getQueryParams();
 
-        /* @var $modelClass \yii\db\BaseActiveRecord */
-        $modelClass = $this->modelClass;
-        $query = $modelClass::find()->select([])->where([]);
-        if (!empty($filter)) {
-            $query->andWhere($filter);
+        //查询 经历/昵称/编号
+        $q = Yii::$app->getRequest()->getQueryParam('q', '');
+        //0-全部 1-在线 2-不在线
+        $online = Yii::$app->getRequest()->getQueryParam('online', 0);
+        //0-default 1-经验丰富 2-咨询次数多 3-评价好 4-咨询单价低 5-咨询单价高
+        $order = Yii::$app->getRequest()->getQueryParam('order', 0);
+
+        $query = ($this->modelClass)::find()->select([])->where(['status' => ($this->modelClass)::STATUS_ACTIVE]);
+
+        $orderBy = ['id' => SORT_DESC];
+        switch ($order) {
+            case 1:
+                $orderBy = ['experience_count' => SORT_DESC];
+                break;
+            case 2:
+                $orderBy = ['help_count' => SORT_DESC];
+                break;
+            case 3:
+                $orderBy = ['star' => SORT_DESC];
+                break;
+            case 4:
+                $orderBy = ['price' => SORT_ASC];
+                break;
+            case 5:
+                $orderBy = ['price' => SORT_DESC];
+                break;
+        }
+        if (!empty($q)) {
+            $idArr = $this->getUserIdsByQuery($q);
+            if (empty($idArr)) {
+                return [];
+            }
+            $query->andFilterWhere(['id' => $idArr]);
         }
 
         $dataProvider = Yii::createObject([
             'class' => ActiveDataProvider::className(),
             'query' => $query,
             'pagination' => [
-                'params' => $requestParams,
+                'params' => $params,
                 'pageParam' => 'page',
                 'pageSizeParam' => 'limit',
                 'defaultPageSize' => 20,
             ],
             'sort' => [
-                'defaultOrder' => [
-                    'created_at' => SORT_DESC,
-                    'id' => SORT_DESC,
-                ],
-                'params' => $requestParams,
+                'defaultOrder' => $orderBy,
+                'params' => $params,
             ],
         ]);
 
         return $dataProvider;
+    }
+
+    /**
+     * 查询ID 昵称 经历
+     * @param $query
+     * @return array
+     */
+    public function getUserIdsByQuery($query)
+    {
+        $modelClass = $this->modelClass;
+        if (is_numeric($query)) {
+            $query = intval($query);
+            $model = $modelClass::findOne(['id' => $query]);
+            if (null !== $model) {
+                return [$model->id];
+            }
+        }
+        $list = $modelClass::find()->select(['id'])->where(['like', 'nickname', $query])->indexBy('id')->all();
+        if (!empty($list)) {
+            return array_keys($list);
+        }
+        $list = UserExperience::find()->select('uid')->where(['like', 'content', $query])->indexBy('uid')->all();
+        if (!empty($list)) {
+            return array_keys($list);
+        }
+        return [];
     }
 
     /**
@@ -309,11 +373,11 @@ class UserController extends ActiveController
      */
     public function afterAction($action, $result)
     {
-        if('view' === $action->id){//获取的是个人信息页面，那么该用户的访客数加1
+        if ('view' === $action->id) {//获取的是个人信息页面，那么该用户的访客数加1
             if (!Yii::$app->getUser()->getIsGuest() && $result) {
                 $loginUserId = Yii::$app->getUser()->getIdentity()->getId();
-                if($loginUserId != $result->id){
-                    $result->updateCounters(['view_count'=>1]);
+                if ($loginUserId != $result->id) {
+                    $result->updateCounters(['view_count' => 1]);
                     //$result->is_collected = UserCollect::isCollected($result->id, $loginUserId);
                 }
             }

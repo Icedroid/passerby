@@ -11,7 +11,7 @@ Accept: application/json
 
 ###
 
-GET http://passerby.test/api/v1/users?access-token=testaf448c3cd7f250e0635c39a0test&where[nickname][like]=小
+GET http://passerby.test/api/v1/users?access-token=testaf448c3cd7f250e0635c39a0test&online=0&order=2
 Accept: application/json
 
 ###
@@ -117,6 +117,14 @@ Content-Type: application/json
 
 ###
 
+POST http://passerby.test/api/v1/user-experiences/delete/2?access-token=testaf448c3cd7f250e0635c39a0test
+Content-Type: application/json
+
+{
+}
+
+###
+
 GET http://passerby.test/api/v1/helps?access-token=testaf448c3cd7f250e0635c39a0test
 Accept: application/json
 
@@ -153,6 +161,13 @@ Content-Type: application/json
 
 ###
 
+POST http://passerby.test/api/v1/helps/delete/2?access-token=testaf448c3cd7f250e0635c39a0test
+Content-Type: application/json
+
+{
+}
+
+###
 
 GET http://passerby.test/api/v1/help-comments?access-token=testaf448c3cd7f250e0635c39a0test&where[help_id]=1
 Accept: application/json
@@ -196,6 +211,15 @@ Content-Type: application/json
   "understand": 2,
   "help": 5,
   "reason": 5,
+  "content": "这是一条很长长的工作经历这是一条很长长的工作经历这是一条很长长的工作经历"
+}
+
+###
+
+POST http://passerby.test/api/v1/feedbacks?access-token=testaf448c3cd7f250e0635c39a0test
+Content-Type: application/json
+
+{
   "content": "这是一条很长长的工作经历这是一条很长长的工作经历这是一条很长长的工作经历"
 }
 

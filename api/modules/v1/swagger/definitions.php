@@ -5,27 +5,32 @@ namespace app\models\v1\swagger;
 /**
  * @SWG\Tag(
  *   name="user",
- *   description="用户接口列表",
+ *   description="用户接口",
  * )
  *
  * @SWG\Tag(
  *   name="collect",
- *   description="用户收藏接口列表",
+ *   description="用户收藏接口",
  * )
  *
  * @SWG\Tag(
  *   name="experience",
- *   description="用户经历接口列表",
+ *   description="用户经历接口",
  * )
  *
  * @SWG\Tag(
  *   name="help",
- *   description="求助接口列表",
+ *   description="求助接口",
  * )
  *
  * @SWG\Tag(
  *   name="star",
- *   description="评分接口列表",
+ *   description="评分接口",
+ * )
+ *
+ * @SWG\Tag(
+ *   name="other",
+ *   description="其他接口",
  * )
  */
 
