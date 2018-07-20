@@ -57,6 +57,7 @@ return [
             'rules' => [
                 '' => 'v1/default/index',
                 'GET v1/login' => 'v1/default/login',
+                'GET v1/helps/search' => 'v1/help/search',
                 [
                     'class' => yii\rest\UrlRule::className(),
                     'controller' => ['v1/user-collect', 'v1/user-experience', 'v1/help', 'v1/help-comment', 'v1/user-star'],

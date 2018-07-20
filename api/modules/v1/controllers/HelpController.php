@@ -11,6 +11,8 @@ use yii\filters\auth\CompositeAuth;
 use yii\filters\auth\QueryParamAuth;
 use yii\filters\auth\HttpBasicAuth;
 use yii\data\ActiveDataProvider;
+use api\modules\v1\actions\SearchAction;
+use api\modules\v1\models\search\HelpSearch;
 
 
 class HelpController extends ActiveController
@@ -160,7 +162,30 @@ class HelpController extends ActiveController
      *
      * @SWG\Get(path="/helps",
      *     tags={"help"},
-     *     summary="获取用户的所有求助列表",
+     *     summary="获取我的求助列表",
+     *     description="返回求助列表",
+     *     produces={"application/json"},
+     *    @SWG\Parameter(
+     *        in = "query",
+     *        name = "access-token",
+     *        description = "access-token",
+     *        required = true,
+     *        type = "string"
+     *     ),
+     *     @SWG\Response(
+     *         response = 200,
+     *         description = " success",
+     *         @SWG\Schema(ref="#/definitions/Help"),
+     *     )
+     * )
+     *
+     */
+
+    /**
+     *
+     * @SWG\Get(path="/helps/search",
+     *     tags={"help"},
+     *     summary="搜索所有的求助列表",
      *     description="返回求助列表",
      *     produces={"application/json"},
      *    @SWG\Parameter(
@@ -217,19 +242,12 @@ class HelpController extends ActiveController
 
         // 使用"prepareDataProvider()"方法自定义数据provider
         $actions['index']['prepareDataProvider'] = [$this, 'prepareDataProvider'];
-        $actions['index']['dataFilter'] = [
-            'class' => \yii\data\ActiveDataFilter::class,
-            'filterAttributeName'=>'where',
-            'searchModel' => function () {
-                return (new \yii\base\DynamicModel(['id' => null, 'uid' => null, 'is_emergency' => null, 'is_pay'=>null, 'content' => null]))
-                    ->addRule('id', 'integer')
-                    ->addRule('uid', 'integer')
-                    ->addRule('is_emergency', 'integer')
-                    ->addRule('is_pay', 'integer')
-                    ->addRule('content', 'trim')
-                    ->addRule('content', 'string');
-            },
-//            'filter' => ['c_uid' => Yii::$app->getUser()->getIdentity()->getId()],
+
+        $actions['search'] = [
+            'class' => SearchAction::className(),
+            'modelClass' => $this->modelClass,
+            'checkAccess' => [$this, 'checkAccess'],
+            'data' => [new HelpSearch(), 'search'],
         ];
 
         return $actions;
@@ -253,23 +271,16 @@ class HelpController extends ActiveController
         /* @var $modelClass \yii\db\BaseActiveRecord */
         $modelClass = $this->modelClass;
 
-        $query = $modelClass::find()->select(['{{help}}.*','{{user}}.nickname','{{user}}.avatar'])
-            ->where([])
+        $query = $modelClass::find()->select(['{{help}}.*', '{{user}}.nickname', '{{user}}.avatar'])
+            ->where(['uid' => Yii::$app->getUser()->getIdentity()->getId()])
             ->joinWith('user');
-        if (!empty($filter)) {
-//            if(!$filter->c_uid){
-//                $query->addFilterWhere('c_uid'=>Yii::$app->getUser()->getIdentity()->getId());
-//            }
-            $query->andWhere($filter);
-        }
-
 
         $dataProvider = Yii::createObject([
             'class' => ActiveDataProvider::className(),
             'query' => $query,
             'pagination' => [
                 'params' => $requestParams,
-                'pageParam'=> 'page',
+                'pageParam' => 'page',
                 'pageSizeParam' => 'limit',
                 'defaultPageSize' => 20,
             ],

@@ -43,7 +43,7 @@ class Help extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['uid', 'is_emergency', 'is_pay', 'end_date', 'created_at', 'updated_at'], 'integer'],
+            [['uid', 'is_emergency', 'is_pay', 'end_date', 'comment_count','created_at', 'updated_at'], 'integer'],
             [['content'], 'required'],
             [['content'], 'string'],
         ];
@@ -61,6 +61,7 @@ class Help extends \yii\db\ActiveRecord
             'is_emergency' => Yii::t('app', 'Is Emergency'),
             'is_pay' => Yii::t('app', 'Is Pay'),
             'end_date' => Yii::t('app', 'End Date'),
+            'comment_count' => Yii::t('app', 'Comment Count'),
             'created_at' => Yii::t('app', 'Created At'),
             'updated_at' => Yii::t('app', 'Updated At'),
         ];

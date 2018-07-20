@@ -122,7 +122,7 @@ Accept: application/json
 
 ###
 
-GET http://passerby.test/api/v1/helps?access-token=testaf448c3cd7f250e0635c39a0test&where[uid]=8&where[is_emergency]=1&where[is_pay]=1&where[content][like]=工作&sort=-end_date
+GET http://passerby.test/api/v1/helps/search?access-token=testaf448c3cd7f250e0635c39a0test&end_date=2
 Accept: application/json
 
 ###
@@ -154,7 +154,7 @@ Content-Type: application/json
 ###
 
 
-GET http://passerby.test/api/v1/help-comments?access-token=testaf448c3cd7f250e0635c39a0test&where[help_id]=3
+GET http://passerby.test/api/v1/help-comments?access-token=testaf448c3cd7f250e0635c39a0test&where[help_id]=1
 Accept: application/json
 
 ###
@@ -168,13 +168,13 @@ POST http://passerby.test/api/v1/help-comments?access-token=testaf448c3cd7f250e0
 Content-Type: application/json
 
 {
-  "help_id": 3,
+  "help_id": 1,
   "content": "这是一条很长长的内容这是一条很长长的内容这是一条很长长的内容这是一条很长长的内容"
 }
 
 ###
 
-POST http://passerby.test/api/v1/help-comments/2?access-token=testaf448c3cd7f250e0635c39a0test
+POST http://passerby.test/api/v1/help-comments/delete/4?access-token=testaf448c3cd7f250e0635c39a0test
 Content-Type: application/json
 
 {
