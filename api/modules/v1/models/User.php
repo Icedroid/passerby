@@ -13,13 +13,16 @@ use yii\web\IdentityInterface;
 
 class User extends \common\models\User implements IdentityInterface
 {
+    public $chat_count = 0;
     public $is_collected = false;
+    public $collect_id = 0;
+    public $collect_remark = '';
 
     public function fields()
     {
         $fields = parent::fields();
         unset($fields['auth_key'], $fields['openid'], $fields['session_key'], $fields['status'], $fields['star'], $fields['star_count'],
-            $fields['view_count'], $fields['help_count'], $fields['experience_count'], $fields['created_at'], $fields['updated_at']);
+            $fields['view_count'], $fields['help_count'],  $fields['created_at'], $fields['updated_at']);
         $fields['price'] = function ($model) {
             return intval($model->price);
         };
@@ -30,6 +33,10 @@ class User extends \common\models\User implements IdentityInterface
 //            return intval($model->star * 100);
 //        };
         $fields['is_collected'] = 'is_collected';
+        $fields['collect_id'] = 'collect_id';
+        $fields['collect_remark'] = 'collect_remark';
+        //TO DO 聊天次数
+        $fields['chat_count'] = 'chat_count';
 //        $fields['access_token'] = 'auth_key';
         return $fields;
     }
@@ -58,7 +65,13 @@ class User extends \common\models\User implements IdentityInterface
     {
         if (!Yii::$app->getUser()->getIsGuest()) {
             $loginUserId = Yii::$app->getUser()->getIdentity()->getId();
-            $this->is_collected = UserCollect::isCollected($this->id, $loginUserId);
+            $model = UserCollect::findOne(['uid'=>$this->id, 'c_uid'=>$loginUserId]);
+            if(NULL !== $model){
+                $this->is_collected = true;
+                $this->collect_id = $model->id;
+                $this->collect_remark = $model->remark;
+            }
+//            $this->is_collected = UserCollect::isCollected($this->id, $loginUserId);
         }
         parent::afterFind();
     }
@@ -113,6 +126,14 @@ class User extends \common\models\User implements IdentityInterface
     public static function findIdentityByAccessToken($token, $type = null)
     {
         return static::findOne(['auth_key' => $token, 'status' => self::STATUS_ACTIVE]);
+    }
+
+    /**
+     * return openId
+     */
+    public function getOpenId()
+    {
+        return $this->openid;
     }
 
     /**
