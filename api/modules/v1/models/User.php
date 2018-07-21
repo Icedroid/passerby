@@ -143,6 +143,14 @@ class User extends \common\models\User implements IdentityInterface
     }
 
     /**
+     * 获取用户的余额
+     */
+    public function getBalance()
+    {
+        return $this->balance;
+    }
+
+    /**
      * @inheritdoc
      */
     public function getId()

@@ -8,14 +8,20 @@
 
 namespace api\modules\v1\controllers;
 
-use api\modules\v1\models\Charge;
-use common\helpers\ResponseHelper;
 use Yii;
 use yii\filters\auth\CompositeAuth;
 use yii\filters\auth\HttpBearerAuth;
 use yii\filters\auth\QueryParamAuth;
 use yii\rest\Controller;
 use yii\web\Response;
+use yii\data\ActiveDataProvider;
+
+use api\modules\v1\models\Charge;
+use api\modules\v1\models\Consume;
+use api\modules\v1\models\Gift;
+use api\modules\v1\models\Withdrawal;
+
+use common\helpers\ResponseHelper;
 
 
 class OrderController extends Controller
@@ -34,9 +40,6 @@ class OrderController extends Controller
 //                    'class' => QueryParamAuth::className(),
 //                    'tokenParam'=>'access_token',//修改query的参数名
 //                ],
-            ],
-            'only' => [
-                'index',
             ],
         ];
 
@@ -109,6 +112,7 @@ class OrderController extends Controller
         // 生成支付配置
         $payment = Yii::$app->wechat->payment;
         $result = $payment->order->unify($orderData);
+        Yii::info(['charge' => $result], 'wechat');
         if ($result['return_code'] == 'SUCCESS') {
             $prepayId = $result['prepay_id'];
             $config = $payment->jssdk->sdkConfig($prepayId);
@@ -120,7 +124,6 @@ class OrderController extends Controller
                 return $model;
             }
         } else {
-            return $result;
             ResponseHelper::apiResult('微信支付异常, 请稍后再试');
         }
 
@@ -132,45 +135,182 @@ class OrderController extends Controller
     }
 
     /**
-     * 微信支付 通知回调
-     * @throws \yii\base\ExitException
+     *
+     * @SWG\Post(path="/withdrawal",
+     *     tags={"other"},
+     *     summary="提现",
+     *     description="返回成功或失败",
+     *     produces={"application/json"},
+     *     @SWG\Parameter(
+     *        in = "query",
+     *        name = "access-token",
+     *        description = "access-token",
+     *        required = true,
+     *        type = "string"
+     *     ),
+     *     @SWG\Parameter(
+     *        in = "body",
+     *        name = "body",
+     *        description = "提现金额",
+     *        required = true,
+     *        @SWG\Schema(ref="#/definitions/Charge"),
+     *     ),
+     *     @SWG\Response(
+     *         response = 200,
+     *         description = " success"
+     *     )
+     * )
+     *
      */
-    public function actionNotify()
+
+    /**
+     * 使用微信支付的企业付款 提现到微信零钱
+     */
+    public function actionWithdrawal()
     {
+        //用户输入充值金额
+        $money = Yii::$app->getRequest()->post('money', 0);//单位为元
+
+        $loginUser = Yii::$app->getUser()->getIdentity();
+//        $uid = $loginUser->getId();
+        $openId = $loginUser->getOpenId();
+//        $ip = Yii::$app->getRequest()->getUserIP();
+
+        if(!$money){
+            ResponseHelper::apiResult('提现金额不能为空');
+        }
+        $money = intval($money * 100);
+        if($money > $loginUser->getBalance()){
+            ResponseHelper::apiResult('余额不足');
+        }
+        // 生成支付配置
         $payment = Yii::$app->wechat->payment;
 
-        $response = $payment->handlePaidNotify(function($message, $fail){
-            // 使用通知里的 "微信支付订单号" 或者 "商户订单号" 去自己的数据库找到订单
-            $order = Charge::findOne(['out_trade_no'=>$message['out_trade_no']]);
-
-            if (null === $order || $order->transaction_id) { // 如果订单不存在 或者 订单已经支付过了
-                return true; // 告诉微信，我已经处理完了，订单没找到，别再通知我了
-            }
-
-            ///////////// <- 建议在这里调用微信的【订单查询】接口查一下该笔订单的情况，确认是已经支付 /////////////
-
-            if ($message['return_code'] === 'SUCCESS') { // return_code 表示通信状态，不代表支付状态
+        try {
+            $data = [
+                'partner_trade_no' => date("YmdHis").time(), // 商户订单号，需保持唯一性(只能是字母或者数字，不能包含有符号)
+                'openid' => $openId,
+                'check_name' => 'NO_CHECK',
+//            'check_name' => 'FORCE_CHECK', // NO_CHECK：不校验真实姓名, FORCE_CHECK：强校验真实姓名
+//            're_user_name' => '王小帅', // 如果 check_name 设置为FORCE_CHECK，则必填用户真实姓名
+                'amount' => $money, // 企业付款金额，单位为分
+                'desc' => '提现', // 企业付款操作说明信息。必填
+            ];
+            $result = $payment->transfer->toBalance($data);
+            Yii::info(['withdrawal' => $result], 'wechat');
+            if ($result['return_code'] === 'SUCCESS') { // return_code 表示通信状态，不代表支付状态
                 // 用户是否支付成功
-                if ($message['result_code'] === 'SUCCESS') {
-                    $order->transaction_id = $message['transaction_id'];
-                    $order->paid_at = time(); // 更新支付时间为当前时间
-                    $order->status = Charge::STATUS_PAY_SUCCESS;
-
-                } elseif ($message['result_code'] === 'FAIL') { // 用户支付失败
-                    $order->status = Charge::STATUS_PAY_FAIL;
-                }
-
-                if(!$order->save()){
-                    return $fail('订单保存失败，请稍后再通知我');
+                if ($result['result_code'] === 'SUCCESS') {
+                    //save to db
+                    $model = new Withdrawal();
+                    $model->load($data, '');
+                    if(!$model->save() && $model->hasErrors()){
+                        return $model;
+                    }
+                } elseif ($result['result_code'] === 'FAIL') { // 用户支付失败
+                    ResponseHelper::apiResult('提现到微信零钱失败，请稍后再试');
                 }
             } else {
-                return $fail('通信失败，请稍后再通知我');
+                ResponseHelper::apiResult('通信失败，请稍后再试');
             }
-            return true; // 返回处理完成
-        });
+        }catch (\Exception $e){
+            return $e->getMessage();
+            ResponseHelper::apiResult('提现到微信零钱异常, 请稍后再试');
+        }
+    }
 
-        $response->send(); // return $response;
-//        Yii::$app->end();
+    /**
+     *
+     * @SWG\Post(path="/send-gift",
+     *     tags={"other"},
+     *     summary="打赏",
+     *     description="打赏礼物给用户",
+     *     produces={"application/json"},
+     *     @SWG\Parameter(
+     *        in = "query",
+     *        name = "access-token",
+     *        description = "access-token",
+     *        required = true,
+     *        type = "string"
+     *     ),
+     *     @SWG\Parameter(
+     *        in = "body",
+     *        name = "body",
+     *        description = "充值金额",
+     *        required = true,
+     *        @SWG\Schema(ref="#/definitions/Gift"),
+     *     ),
+     *     @SWG\Response(
+     *         response = 200,
+     *         description = " success"
+     *     )
+     * )
+     *
+     */
+    /**
+     * 赠送礼物接口
+     */
+    public function actionSendGift()
+    {
+        $model = new Gift();
+        $model->load(Yii::$app->getRequest()->getBodyParams(), '');
+        if ($model->save()) {
+            return [];
+        } elseif (!$model->hasErrors()) {
+            ResponseHelper::busy();
+        }
+
+        return $model;
+    }
+
+    /**
+     *
+     * @SWG\Get(path="/consumes",
+     *     tags={"other"},
+     *     summary="获取流水",
+     *     description="获取所有的流水记录",
+     *     produces={"application/json"},
+     *     @SWG\Parameter(
+     *        in = "query",
+     *        name = "access-token",
+     *        description = "access-token",
+     *        required = true,
+     *        type = "string"
+     *     ),
+     *     @SWG\Response(
+     *         response = 200,
+     *         description = "success",
+     *         @SWG\Schema(ref="#/definitions/Consume"),
+     *     )
+     * )
+     *
+     */
+
+    /**
+     * 获取用户的所有消费流水
+     */
+    public function actionConsume()
+    {
+        $params = Yii::$app->getRequest()->getQueryParams();
+
+        $query = Consume::find()->select([])->where(['uid' => Yii::$app->getUser()->getIdentity()->getId()]);
+
+        $dataProvider = Yii::createObject([
+            'class' => ActiveDataProvider::className(),
+            'query' => $query,
+            'pagination' => [
+                'params' => $params,
+                'pageParam' => 'page',
+                'pageSizeParam' => 'limit',
+                'defaultPageSize' => 20,
+            ],
+            'sort' => [
+                'defaultOrder' => ['id'=>SORT_DESC],
+                'params' => $params,
+            ],
+        ]);
+
+        return $dataProvider;
     }
 
 }

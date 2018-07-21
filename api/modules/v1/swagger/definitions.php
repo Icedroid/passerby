@@ -146,6 +146,27 @@ namespace app\models\v1\swagger;
  */
 
 /**
+ * @SWG\Definition(
+ *      definition="Gift",
+ *      required={"accept_uid", "name", "price", "amount"},
+ * 		@SWG\Property(property="accept_uid", type="integer", description="接受礼物的用户ID"),
+ * 		@SWG\Property(property="name", type="string", description="礼物名称"),
+ * 		@SWG\Property(property="price", type="number", description="礼物价格，单位为元"),
+ * 		@SWG\Property(property="amount", type="integer", description="礼物数量"),
+ * )
+ */
+
+
+/**
+ * @SWG\Definition(
+ *      definition="Consume",
+ * 		@SWG\Property(property="desc", type="string", description="描述"),
+ * 		@SWG\Property(property="money", type="string", description="显示金额，包含了+ -号"),
+ * 		@SWG\Property(property="created_at", type="string", description="创建时间"),
+ * )
+ */
+
+/**
  * @SWG\Definition(required={"id"}, @SWG\Xml(name="Id"))
  */
 class Id

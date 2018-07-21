@@ -18,4 +18,9 @@ class ResponseHelper extends \yii\helpers\ArrayHelper
     {
         throw new HttpException($code, $message);
     }
+
+    public static function busy()
+    {
+        throw new HttpException(500, '系统异常，请稍后再试');
+    }
 }

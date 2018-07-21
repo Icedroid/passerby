@@ -28,7 +28,16 @@ return [
             'targets' => [
                 [
                     'class' => yii\log\FileTarget::className(),//当触发levels配置的错误级别时，保存到日志文件
-                    'levels' => ['error', 'warning'],
+                    'levels' => ['info', 'error', 'warning'],
+                    'categories' => [
+                        'yii\db\*',
+                        'yii\web\HttpException:*',
+                        'wechat',
+                    ],
+                    'except' => [
+                        'yii\web\HttpException:404',
+                    ],
+                    'logVars' => [],
                 ],
             ],
         ],
@@ -59,7 +68,10 @@ return [
                 'GET v1/login' => 'v1/default/login',
                 'GET v1/helps/search' => 'v1/help/search',
                 'POST v1/charge' => 'v1/order/index',
-                'v1/notify' => 'v1/order/notify',
+                'v1/notify' => 'v1/notify/index',
+                'POST v1/withdrawal' => 'v1/order/withdrawal',
+                'POST v1/send-gift' => 'v1/order/send-gift',
+                'GET v1/consumes' => 'v1/order/consume',
                 [
                     'class' => yii\rest\UrlRule::className(),
                     'controller' => ['v1/user-collect', 'v1/user-experience', 'v1/help', 'v1/help-comment', 'v1/user-star', 'v1/feedback'],

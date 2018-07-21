@@ -233,3 +233,30 @@ Content-Type: application/json
 }
 
 ###
+
+POST http://passerby.test/api/v1/withdrawal?access-token=testaf448c3cd7f250e0635c39a0test
+Content-Type: application/json
+
+{
+  "money": 0.01
+}
+
+###
+
+POST http://passerby.test/api/v1/send-gift?access-token=testaf448c3cd7f250e0635c39a0test
+Content-Type: application/json
+
+{
+  "accept_uid": 1,
+  "name": "啤酒",
+  "price": 1,
+  "amount": 1
+}
+
+###
+
+GET http://passerby.test/api/v1/consumes?access-token=testaf448c3cd7f250e0635c39a0test
+Accept: application/json
+
+
+###
