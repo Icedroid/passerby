@@ -99,7 +99,7 @@ class OrderController extends Controller
         $orderData = [
             'body' => '充值',
             'out_trade_no' => Yii::$app->security->generateRandomString(),
-            'total_fee' => $money,
+            'total_fee' => $money, //单位为分
             'spbill_create_ip' => $ip, // 可选，如不传该参数，SDK 将会自动获取相应 IP 地址
 //            'notify_url' => 'https://pay.weixin.qq.com/wxpay/pay.action', // 支付结果通知网址，如果不设置则会使用配置里的默认地址
             'trade_type' => 'JSAPI',
