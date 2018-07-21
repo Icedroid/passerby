@@ -139,6 +139,13 @@ namespace app\models\v1\swagger;
  */
 
 /**
+ * @SWG\Definition(
+ *      definition="Charge",
+ * 		@SWG\Property(property="money", type="number", description="金额"),
+ * )
+ */
+
+/**
  * @SWG\Definition(required={"id"}, @SWG\Xml(name="Id"))
  */
 class Id

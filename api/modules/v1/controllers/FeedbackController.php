@@ -73,7 +73,7 @@ class FeedbackController extends ActiveController
      *     ),
      *     @SWG\Parameter(
      *        in = "body",
-     *        name = "content",
+     *        name = "body",
      *        description = "内容content",
      *        required = true,
      *        @SWG\Schema(ref="#/definitions/UserExperience"),

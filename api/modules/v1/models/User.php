@@ -20,25 +20,31 @@ class User extends \common\models\User implements IdentityInterface
 
     public function fields()
     {
-        $fields = parent::fields();
-        unset($fields['auth_key'], $fields['openid'], $fields['session_key'], $fields['status'], $fields['star'], $fields['star_count'],
-            $fields['view_count'], $fields['help_count'],  $fields['created_at'], $fields['updated_at']);
-        $fields['price'] = function ($model) {
-            return intval($model->price);
-        };
-        $fields['birthday'] = function ($model) {
-            return date("Y-m-d", strtotime($model->birthday));
-        };
-//        $fields['star'] = function ($model) {
-//            return intval($model->star * 100);
-//        };
-        $fields['is_collected'] = 'is_collected';
-        $fields['collect_id'] = 'collect_id';
-        $fields['collect_remark'] = 'collect_remark';
-        //TO DO 聊天次数
-        $fields['chat_count'] = 'chat_count';
-//        $fields['access_token'] = 'auth_key';
-        return $fields;
+        return [
+            'id',
+            'avatar',
+            'nickname',
+            'gender',
+            'birthday'=>function ($model) {
+                return date("Y-m-d", strtotime($model->birthday));
+            },
+            'education',
+            'marriage',
+            'children',
+            'job',
+            'hobby',
+            'is_special',
+            'price' => function ($model) {
+                return intval($model->price);
+            },
+            'experience_count',
+
+            //extra
+            'is_collected',
+            'collect_id',
+            'collect_remark',
+            'chat_count',
+        ];
     }
 
     public function beforeValidate()

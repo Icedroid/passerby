@@ -30,20 +30,16 @@ class ProfileAction extends Action
 
         $fields = $model->fields();
         $fields['view_count'] = 'view_count'; //访客次数
-        $fields['collect_count'] = function ($model){//被收藏数
-            return intval(UserCollect::find()->where(['uid'=>$model->id])->count('id'));
-        };
         $fields['help_count'] = 'help_count'; //咨询次数
-
-//        $fields['help_count'] = function ($model){//咨询次数
-//            return intval(Help::find()->where(['uid'=>$model->id])->count('id'));
-//        };
         $fields['star'] = function ($model) {//好评值
             return intval($model->star * 100);
         };
         $fields['money'] = function ($model){//金钱
             //TO DO
-            return 0;
+            return $model->balance/100;
+        };
+        $fields['collect_count'] = function ($model){//被收藏数
+            return intval(UserCollect::find()->where(['uid'=>$model->id])->count('id'));
         };
 
         return ArrayHelper::toArray($model, [$this->modelClass=>$fields],false);

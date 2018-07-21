@@ -58,6 +58,8 @@ return [
                 '' => 'v1/default/index',
                 'GET v1/login' => 'v1/default/login',
                 'GET v1/helps/search' => 'v1/help/search',
+                'POST v1/charge' => 'v1/order/index',
+                'v1/notify' => 'v1/order/notify',
                 [
                     'class' => yii\rest\UrlRule::className(),
                     'controller' => ['v1/user-collect', 'v1/user-experience', 'v1/help', 'v1/help-comment', 'v1/user-star', 'v1/feedback'],
