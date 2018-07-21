@@ -46,7 +46,12 @@ class Withdrawal extends \common\models\Withdrawal
 
     public function afterSave($insert, $changedAttributes)
     {
-        if ($insert) {//提现成功才添加一条提现记录
+        if ($insert) {//提现成功才添加一条提现记录，并减去用户账户的余额
+            $model = User::findOne(['id' => $this->uid]);
+            if ($model !== null) {
+                $model->updateCounters(['balance' => $this->amount]);
+            }
+
             //流水表添加记录
             Consume::addRow($this->uid, $this->amount, Consume::TYPE_WITHDRAWAL);
         }

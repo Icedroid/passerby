@@ -183,6 +183,8 @@ class OrderController extends Controller
         if($money > $loginUser->getBalance()){
             ResponseHelper::apiResult('余额不足');
         }
+
+        $realMoney = $money * (1 - Yii::$app->params['withdrawalPercentage']);
         // 生成支付配置
         $payment = Yii::$app->wechat->payment;
 
@@ -193,7 +195,7 @@ class OrderController extends Controller
                 'check_name' => 'NO_CHECK',
 //            'check_name' => 'FORCE_CHECK', // NO_CHECK：不校验真实姓名, FORCE_CHECK：强校验真实姓名
 //            're_user_name' => '王小帅', // 如果 check_name 设置为FORCE_CHECK，则必填用户真实姓名
-                'amount' => $money, // 企业付款金额，单位为分
+                'amount' => $realMoney, // 企业付款金额，单位为分
                 'desc' => '提现', // 企业付款操作说明信息。必填
             ];
             $result = $payment->transfer->toBalance($data);
@@ -204,6 +206,7 @@ class OrderController extends Controller
                     //save to db
                     $model = new Withdrawal();
                     $model->load($data, '');
+                    $model->amount = $money; //显示的时未扣款前的值
                     if(!$model->save() && $model->hasErrors()){
                         return $model;
                     }
