@@ -18,7 +18,8 @@ class UpdateByWechatAction extends Action
 
 
     /**
-     * Updates an existing model.
+     * 微信小程序 wx.GetUserinfo 微信获取用户信息需要保存到服务器时调用的接口
+     *
      * @param string $id the primary key of the model.
      * @return \yii\db\ActiveRecordInterface the model being updated
      * @throws ServerErrorHttpException if there is any error when updating the model
@@ -48,6 +49,20 @@ class UpdateByWechatAction extends Action
         }
         if ($model->save() === false && !$model->hasErrors()) {
             throw new ServerErrorHttpException('Failed to update the object for unknown reason.');
+        }
+
+        $qlcoudim = Yii::$app->qcloudim->client;
+        $data = [
+            "Identifier" => strval($this->getId()),
+            "Nick" => $model->nickname,
+            "FaceUrl" => $model->avatar,
+        ];
+
+        $result = $qlcoudim->request('im_open_login_svc', 'account_import', $data);
+        if ($result['ActionStatus'] === 'OK') {
+            Yii::info($result, 'im');
+        }else{
+            Yii::error($result, 'im');
         }
 
         return $model;

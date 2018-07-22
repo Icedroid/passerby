@@ -8,6 +8,7 @@
 
 namespace api\modules\v1\controllers;
 
+use common\helpers\StringHelper;
 use Yii;
 use yii\filters\auth\CompositeAuth;
 use yii\filters\auth\HttpBearerAuth;
@@ -93,6 +94,7 @@ class OrderController extends Controller
         $uid = $loginUser->getId();
         $openId = $loginUser->getOpenId();
         $ip = Yii::$app->getRequest()->getUserIP();
+        $out_trade_no = StringHelper::getUniqid();
 
         if(!$money){
             ResponseHelper::apiResult(Yii::t('app', 'money required'));
@@ -101,7 +103,7 @@ class OrderController extends Controller
         // 支付参数
         $orderData = [
             'body' => '充值',
-            'out_trade_no' => Yii::$app->security->generateRandomString(),
+            'out_trade_no' => $out_trade_no,
             'total_fee' => $money, //单位为分
             'spbill_create_ip' => $ip, // 可选，如不传该参数，SDK 将会自动获取相应 IP 地址
 //            'notify_url' => 'https://pay.weixin.qq.com/wxpay/pay.action', // 支付结果通知网址，如果不设置则会使用配置里的默认地址
@@ -175,6 +177,7 @@ class OrderController extends Controller
 //        $uid = $loginUser->getId();
         $openId = $loginUser->getOpenId();
 //        $ip = Yii::$app->getRequest()->getUserIP();
+        $partner_trade_no = StringHelper::getUniqid();
 
         if(!$money){
             ResponseHelper::apiResult('提现金额不能为空');
@@ -190,7 +193,7 @@ class OrderController extends Controller
 
         try {
             $data = [
-                'partner_trade_no' => date("YmdHis").time(), // 商户订单号，需保持唯一性(只能是字母或者数字，不能包含有符号)
+                'partner_trade_no' => $partner_trade_no, // 商户订单号，需保持唯一性(只能是字母或者数字，不能包含有符号)
                 'openid' => $openId,
                 'check_name' => 'NO_CHECK',
 //            'check_name' => 'FORCE_CHECK', // NO_CHECK：不校验真实姓名, FORCE_CHECK：强校验真实姓名
@@ -210,7 +213,23 @@ class OrderController extends Controller
                     if(!$model->save() && $model->hasErrors()){
                         return $model;
                     }
+                    return [];
                 } elseif ($result['result_code'] === 'FAIL') { // 用户支付失败
+                    $i = 3;
+                    while ($i){
+                        $result = $payment->transfer->queryBalanceOrder($partner_trade_no);
+                        if($result['return_code'] === 'SUCCESS' && $result['result_code'] === 'SUCCESS' &&
+                            ($result['status'] === 'SUCCESS' || $result['status'] === 'PROCESSING') ){
+                            $model = new Withdrawal();
+                            $model->load($data, '');
+                            $model->amount = $money; //显示的时未扣款前的值
+                            if(!$model->save() && $model->hasErrors()){
+                                return $model;
+                            }
+                            return [];
+                        }
+                        $i--;
+                    }
                     ResponseHelper::apiResult('提现到微信零钱失败，请稍后再试');
                 }
             } else {

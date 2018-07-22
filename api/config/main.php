@@ -104,6 +104,9 @@ return [
             // 'sessionParam' => '' # 微信用户信息将存储在会话在这个密钥
             // 'returnUrlParam' => '' # returnUrl 存储在会话中
         ],
+        'qcloudim' => [
+          'class' =>'common\components\QcloudIM',
+        ],
         'request' => [
             'parsers' => [
                 'application/json' => 'yii\web\JsonParser',

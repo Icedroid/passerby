@@ -27,4 +27,12 @@ class StringHelper extends \yii\helpers\StringHelper
             return utf8_encode($str);
         }
     }
+
+    /**
+     * 生成32位包含字母的唯一串
+     * @return string
+     */
+    public static function getUniqid() {
+        return md5(uniqid(md5(microtime(true)), true));
+    }
 }

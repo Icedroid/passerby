@@ -49,6 +49,22 @@ class DefaultController extends Controller
 
     public function actionIndex()
     {
+        $qlcoudim = Yii::$app->qcloudim->client;
+//        $data = [
+//            "Identifier" => "1",
+//            "Nick" => "test",
+//            "FaceUrl" => "http://www.qq.com"
+//        ];
+//
+//        $result =  $qlcoudim->request('im_open_login_svc', 'account_import', $data);
+
+        //一次导入多个账号
+
+        $data = [
+            "Accounts" => ["1", "2", "3", "4"]
+        ];
+        $result = $qlcoudim->request('im_open_login_svc', 'multiaccount_import', $data);
+        return $result;
         return [
             "api service"
         ];
@@ -78,20 +94,20 @@ class DefaultController extends Controller
      */
     public function actionLogin($code)
     {
-        if(!$code){
+        if (!$code) {
             return ResponseHelper::apiResult("通信错误，请在微信重新发起请求");
         }
 
-        try{
+        try {
             $app = Yii::$app->wechat->miniProgram;
             $oauth = ArrayHelper::toArray($app->auth->session($code));
 
 //            $oauth = array('session_key'=>'test', 'openid'=>'test');
-            if($oauth && isset($oauth['errcode']) && isset($oauth['errmsg'])){
+            if ($oauth && isset($oauth['errcode']) && isset($oauth['errmsg'])) {
                 return ResponseHelper::apiResult($oauth['errmsg']);
             }
 
-            if(! (isset($oauth['openid']) && isset($oauth['session_key']))){
+            if (!(isset($oauth['openid']) && isset($oauth['session_key']))) {
                 return ResponseHelper::apiResult('session_key not return');
             }
 
@@ -102,14 +118,14 @@ class DefaultController extends Controller
             }
             $model->generateAccessToken();
             $model->session_key = $oauth['session_key'];
-            if($model->save()){
+            if ($model->save()) {
                 return [
                     'access_token' => $model->auth_key,
                 ];
-            }elseif ($model->hasErrors()) {
+            } elseif ($model->hasErrors()) {
                 return $model;
-            }else{
-                throw new ServerErrorHttpException('Failed to create the object for unknown reason.');
+            } else {
+                return ResponseHelper::busy();
             }
 
 
@@ -117,7 +133,7 @@ class DefaultController extends Controller
 //            $auth_key = Yii::$app->security->generateRandomString().'_'.time();
 //            Yii::$app->cache->set($auth_key, ArrayHelper::toArray($oauth), 7195);
 
-        }catch (\Exception $e){
+        } catch (\Exception $e) {
             return ResponseHelper::apiResult($e->getMessage());
         }
 

@@ -10,8 +10,8 @@ return [
         'key' => '98209766a3804e2c949b136383594bc8',
 
         //// 如需使用敏感接口（如退款、发送红包等）需要配置 API 证书路径(登录商户平台下载 API 证书)
-        'cert_path' => dirname(dirname(__DIR__)) . '/cert/apiclient_cert.pem', // XXX: 绝对路径！！！！
-        'key_path' => dirname(dirname(__DIR__)) . '/cert/apiclient_key.pem', // XXX: 绝对路径！！！！
+        'cert_path' => dirname(dirname(__DIR__)) . '/cert/wechatpay/apiclient_cert.pem', // XXX: 绝对路径！！！！
+        'key_path' => dirname(dirname(__DIR__)) . '/cert/wechatpay/apiclient_key.pem', // XXX: 绝对路径！！！！
         'notify_url' => 'https://api.cngoldwashing.com/api/v1/notify',     // 你也可以在下单时单独设置来想覆盖它
         // 'device_info'     => '013467007045764',
         // 'sub_app_id'      => '',
@@ -53,5 +53,12 @@ return [
             'permission' => 0777,
             'file' => dirname(dirname(__DIR__)) . '/api/runtime/logs/easywechat.log',
         ],
+    ],
+
+    'qcloudim' => [
+        'sdkappid' => '1400112194',
+        'identifier' => 'administrator',
+        'private_key' => dirname(dirname(__DIR__)) . '/cert/qcloudim/private_key', // XXX: 绝对路径！！！！
+        'public_key' => dirname(dirname(__DIR__)) . '/cert/qcloudim/public_key', // XXX: 绝对路径！！！！
     ],
 ];
