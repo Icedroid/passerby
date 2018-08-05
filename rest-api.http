@@ -11,7 +11,7 @@ Accept: application/json
 
 ###
 
-GET http://passerby.test/api/v1/users?access-token=testaf448c3cd7f250e0635c39a0test&online=0&order=2
+GET http://passerby.test/api/v1/users?access-token=testaf448c3cd7f250e0635c39a0test
 Accept: application/json
 
 ###
@@ -42,8 +42,8 @@ POST http://passerby.test/api/v1/users?access-token=59a1af448c3cd7f250e0635c39a0
 Content-Type: application/json
 
 {
-  "username": "test3",
-  "nickname": "小猪费奇2",
+  "username": "test",
+  "nickname": "test",
   "avatar": "uploads/3.png",
   "gender": 1,
   "birthday": 19920120,

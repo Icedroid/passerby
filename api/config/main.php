@@ -105,7 +105,7 @@ return [
             // 'returnUrlParam' => '' # returnUrl 存储在会话中
         ],
         'qcloudim' => [
-          'class' =>'common\components\QcloudIM',
+          'class' =>common\components\QcloudIM::className(),
         ],
         'request' => [
             'parsers' => [

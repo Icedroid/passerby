@@ -119,7 +119,14 @@ class DefaultController extends Controller
             $model->generateAccessToken();
             $model->session_key = $oauth['session_key'];
             if ($model->save()) {
+                $userSig = '';
+                $qlcoudim = Yii::$app->qcloudim;
+                if($qlcoudim) {
+                    $qlcoudim->identifiter = (string)$model->getId();
+                    $userSig = $qlcoudim->client->genSig();
+                }
                 return [
+                    'UserSig' => $userSig,
                     'access_token' => $model->auth_key,
                 ];
             } elseif ($model->hasErrors()) {

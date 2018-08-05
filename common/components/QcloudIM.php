@@ -10,6 +10,8 @@ use common\helpers\qcloudim\Client;
  */
 class QcloudIM extends Component
 {
+    private $_identifiter;
+
     /**
      * QcLoud im
      *
@@ -25,8 +27,16 @@ class QcloudIM extends Component
     public function getClient()
     {
         $config = Yii::$app->params['qcloudim'];
-        self::$_client = new Client($config['sdkappid'], $config['identifier'], 'file://'.$config['private_key'], 'file://'.$config['public_key']);
+        if(!$this->_identifiter){
+           $this->_identifiter = $config['identifier'];
+        }
+        self::$_client = new Client($config['sdkappid'], $this->_identifiter, 'file://'.$config['private_key'], 'file://'.$config['public_key']);
 
         return self::$_client;
+    }
+
+    public function setIdentifiter($identifiter)
+    {
+        $this->_identifiter = $identifiter;
     }
 }

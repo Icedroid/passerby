@@ -63,6 +63,7 @@ class User extends ActiveRecord implements IdentityInterface
             [['auth_key'], 'unique'],
             [['openid'], 'unique'],
 //            [['username'], 'unique'],
+            [['nickname'], 'unique'],
             ['status', 'default', 'value' => self::STATUS_ACTIVE],
             ['status', 'in', 'range' => [self::STATUS_ACTIVE, self::STATUS_DELETED]],
         ];
@@ -74,7 +75,7 @@ class User extends ActiveRecord implements IdentityInterface
     public function attributeLabels()
     {
         return [
-            'username' => yii::t('app', 'Username'),
+            'nickname' => yii::t('app', 'Nickname'),
             'email' => yii::t('app', 'Email'),
             'created_at' => yii::t('app', 'Created At'),
             'updated_at' => yii::t('app', 'Updated At'),
