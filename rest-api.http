@@ -89,7 +89,7 @@ Content-Type: application/json
 
 ###
 
-GET http://passerby.test/api/v1/user-experiences?access-token=testaf448c3cd7f250e0635c39a0test
+GET http://passerby.test/api/v1/user-experiences?access-token=testaf448c3cd7f250e0635c39a0test&uid=8
 Accept: application/json
 
 ###

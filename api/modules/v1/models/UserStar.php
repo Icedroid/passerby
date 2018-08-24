@@ -19,7 +19,7 @@ class UserStar extends \common\models\UserStar
     public function fields()
     {
         $fields = parent::fields();
-        unset($fields['uid'], $fields['updated_at'], $fields['understand'], $fields['help'], $fields['reason']);
+        unset($fields['uid'], $fields['updated_at']);
 
         $fields['created_at'] = function ($model) {
             return date("Y-m-d", $model->created_at ? $model->created_at : time());

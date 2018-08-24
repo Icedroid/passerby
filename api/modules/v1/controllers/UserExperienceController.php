@@ -171,6 +171,13 @@ class UserExperienceController extends ActiveController
      *        required = true,
      *        type = "string"
      *     ),
+     *     @SWG\Parameter(
+     *        in = "query",
+     *        name = "uid",
+     *        description = "要查询的用户ID",
+     *        required = true,
+     *        type = "integer"
+     *     ),
      *     @SWG\Response(
      *         response = 200,
      *         description = " success",
@@ -235,14 +242,23 @@ class UserExperienceController extends ActiveController
 
     public function prepareDataProvider()
     {
-        $where = ['uid' => Yii::$app->getUser()->getIdentity()->getId()];
+        $params = Yii::$app->getRequest()->getQueryParams();
+        $uid = Yii::$app->getRequest()->get('uid', Yii::$app->getUser()->getIdentity()->getId());
+        $where = ['uid'=>$uid];
         $query = ($this->modelClass)::find()->where($where);
         $dataProvider = new ActiveDataProvider([
             'query' => $query,
+            'pagination' => [
+                'params' => $params,
+                'pageParam' => 'page',
+                'pageSizeParam' => 'limit',
+                'defaultPageSize' => 20,
+            ],
             'sort' => [
                 'defaultOrder' => [
-                    'id' => SORT_DESC,
-                ]
+                    'id' => SORT_ASC,
+                ],
+                'params' => $params,
             ]
         ]);
         return $dataProvider;
