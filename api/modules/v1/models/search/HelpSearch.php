@@ -58,7 +58,7 @@ class HelpSearch extends Help
         }elseif(2 == $this->end_date){
             $order = ['id' => SORT_ASC];
         }else{
-            $order = ['id' => SORT_DESC];
+            $order = ['id' => SORT_ASC];
         }
 
         if(1 == $this->comment_count){//0-回复少 1-回复多

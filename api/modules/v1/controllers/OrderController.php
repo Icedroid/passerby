@@ -8,6 +8,7 @@
 
 namespace api\modules\v1\controllers;
 
+use api\modules\v1\models\Complain;
 use common\helpers\StringHelper;
 use Yii;
 use yii\filters\auth\CompositeAuth;
@@ -258,7 +259,7 @@ class OrderController extends Controller
      *     @SWG\Parameter(
      *        in = "body",
      *        name = "body",
-     *        description = "充值金额",
+     *        description = "打赏礼物",
      *        required = true,
      *        @SWG\Schema(ref="#/definitions/Gift"),
      *     ),
@@ -333,6 +334,49 @@ class OrderController extends Controller
         ]);
 
         return $dataProvider;
+    }
+
+    /**
+     *
+     * 投诉接口
+     *
+     * @SWG\Post(path="/complain",
+     *     tags={"other"},
+     *     summary="投诉",
+     *     description="投诉用户",
+     *     produces={"application/json"},
+     *     @SWG\Parameter(
+     *        in = "query",
+     *        name = "access-token",
+     *        description = "access-token",
+     *        required = true,
+     *        type = "string"
+     *     ),
+     *     @SWG\Parameter(
+     *        in = "body",
+     *        name = "body",
+     *        description = "投诉内容",
+     *        required = true,
+     *        @SWG\Schema(ref="#/definitions/Complain"),
+     *     ),
+     *     @SWG\Response(
+     *         response = 200,
+     *         description = " success"
+     *     )
+     * )
+     *
+     */
+    public function actionComplain()
+    {
+        $model = new Complain();
+        $model->load(Yii::$app->getRequest()->getBodyParams(), '');
+        if ($model->save()) {
+            return [];
+        } elseif (!$model->hasErrors()) {
+            ResponseHelper::busy();
+        }
+
+        return $model;
     }
 
 }

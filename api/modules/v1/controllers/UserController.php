@@ -20,10 +20,10 @@ use yii\data\ActiveDataProvider;
 class UserController extends ActiveController
 {
     public $modelClass = 'api\modules\v1\models\User';
-//    public $serializer = [
-//        'class' => \yii\rest\Serializer::class,
-//        'collectionEnvelope' => 'items',
-//    ];
+    public $serializer = [
+        'class' => \yii\rest\Serializer::class,
+        'collectionEnvelope' => 'items',
+    ];
 
 //    public function checkAccess($action, $model = null, $params = [])
 //    {
@@ -294,10 +294,11 @@ class UserController extends ActiveController
         //0-default 1-经验丰富 2-咨询次数多 3-评价好 4-咨询单价低 5-咨询单价高
         $order = Yii::$app->getRequest()->getQueryParam('order', 0);
 
-        $query = ($this->modelClass)::find()->select([])->where(['status' => ($this->modelClass)::STATUS_ACTIVE]);
+        $query = ($this->modelClass)::find()->select([])->where(['is_special'=>1,'status' => ($this->modelClass)::STATUS_ACTIVE]);
 
         $orderBy = ['id' => SORT_DESC];
         switch ($order) {
+            case 0:
             case 1:
                 $orderBy = ['experience_count' => SORT_DESC];
                 break;

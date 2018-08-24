@@ -167,6 +167,15 @@ namespace app\models\v1\swagger;
  */
 
 /**
+ * @SWG\Definition(
+ *      definition="Complain",
+ *      required={"uid"},
+ * 		@SWG\Property(property="uid", type="integer", description="被投诉的用户ID"),
+ * 		@SWG\Property(property="content", type="string", description="投诉内容"),
+ * )
+ */
+
+/**
  * @SWG\Definition(required={"id"}, @SWG\Xml(name="Id"))
  */
 class Id

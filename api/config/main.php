@@ -71,6 +71,7 @@ return [
                 'v1/notify' => 'v1/notify/index',
                 'POST v1/withdrawal' => 'v1/order/withdrawal',
                 'POST v1/send-gift' => 'v1/order/send-gift',
+                'POST v1/complain' => 'v1/order/complain',
                 'GET v1/consumes' => 'v1/order/consume',
                 [
                     'class' => yii\rest\UrlRule::className(),
