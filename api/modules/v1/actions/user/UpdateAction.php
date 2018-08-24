@@ -34,7 +34,7 @@ class UpdateAction extends Action
 
         $model->scenario = $this->scenario;
         $body = Yii::$app->getRequest()->getBodyParams();
-        if(isset($body['avatar']) && (false === strpos($body['avatar'], 'http') && false === strpos($body['avatar'], 'https'))){
+        /*if(isset($body['avatar']) && (false === strpos($body['avatar'], 'http') && false === strpos($body['avatar'], 'https'))){
             $uploadPath = yii::getAlias('@avatar');
             if( strpos(strrev($uploadPath), '/') !== 0 ) $uploadPath .= '/';
             if (! FileHelper::createDirectory($uploadPath)) {
@@ -45,7 +45,7 @@ class UpdateAction extends Action
                 $model->addError('avatar', yii::t('app', 'Upload {attribute} error: ',  ['attribute' => yii::t('app', ucfirst('avatar'))]) . ': ' . $fullName);
             }
             $body['avatar'] = str_replace(yii::getAlias('@frontend/web'), '', $fullName);
-        }
+        }*/
         $model->load($body, '');
         if ($model->save() === false && !$model->hasErrors()) {
             throw new ServerErrorHttpException('Failed to update the object for unknown reason.');

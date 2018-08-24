@@ -63,6 +63,7 @@ namespace app\models\v1\swagger;
  * @SWG\Definition(
  *      definition="User",
  * 		@SWG\Property(property="nickname", type="string", description="用户昵称"),
+ * 		@SWG\Property(property="mobile", type="string", description="手机号码"),
  * 		@SWG\Property(property="avatar", type="string", description="用户头像"),
  * 		@SWG\Property(property="gender", type="integer", description="性别"),
  * 		@SWG\Property(property="birthday", type="integer", description="生日"),
