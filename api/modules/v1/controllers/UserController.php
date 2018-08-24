@@ -137,6 +137,13 @@ class UserController extends ActiveController
      *     produces={"application/json"},
      *     @SWG\Parameter(
      *        in = "query",
+     *        name = "access-token",
+     *        description = "access-token",
+     *        required = true,
+     *        type = "string"
+     *     ),
+     *     @SWG\Parameter(
+     *        in = "query",
      *        name = "q",
      *        description = "查询条件",
      *        required = false,

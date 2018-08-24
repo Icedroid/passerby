@@ -16,7 +16,7 @@ Accept: application/json
 
 ###
 
-GET http://passerby.test/api/v1/users/1?access-token=testaf448c3cd7f250e0635c39a0test
+GET http://passerby.test/api/v1/users/7?access-token=testaf448c3cd7f250e0635c39a0test
 Accept: application/json
 
 ###

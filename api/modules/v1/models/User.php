@@ -79,6 +79,9 @@ class User extends \common\models\User implements IdentityInterface
             }
 //            $this->is_collected = UserCollect::isCollected($this->id, $loginUserId);
         }
+        if($this->avatar && (false === strpos($this->avatar, 'http') && false === strpos($this->avatar, 'https'))){
+            $this->avatar = Yii::$app->getRequest()->getHostInfo().'/'.ltrim($this->avatar, '/');
+        }
         parent::afterFind();
     }
 

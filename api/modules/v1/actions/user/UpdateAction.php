@@ -7,6 +7,7 @@ use yii\base\Model;
 use yii\db\ActiveRecord;
 use yii\web\ServerErrorHttpException;
 use yii\rest\Action;
+use yii\helpers\FileHelper;
 
 class UpdateAction extends Action
 {
@@ -32,7 +33,20 @@ class UpdateAction extends Action
         }
 
         $model->scenario = $this->scenario;
-        $model->load(Yii::$app->getRequest()->getBodyParams(), '');
+        $body = Yii::$app->getRequest()->getBodyParams();
+        if(isset($body['avatar']) && (false === strpos($body['avatar'], 'http') && false === strpos($body['avatar'], 'https'))){
+            $uploadPath = yii::getAlias('@avatar');
+            if( strpos(strrev($uploadPath), '/') !== 0 ) $uploadPath .= '/';
+            if (! FileHelper::createDirectory($uploadPath)) {
+                $model->addError('avatar', "Create directory failed " . $uploadPath);
+            }
+            $fullName = $uploadPath . date('YmdHis') . '_' . uniqid() . '.' . 'png';
+            if (! file_put_contents($fullName, $body['avatar'])) {
+                $model->addError('avatar', yii::t('app', 'Upload {attribute} error: ',  ['attribute' => yii::t('app', ucfirst('avatar'))]) . ': ' . $fullName);
+            }
+            $body['avatar'] = str_replace(yii::getAlias('@frontend/web'), '', $fullName);
+        }
+        $model->load($body, '');
         if ($model->save() === false && !$model->hasErrors()) {
             throw new ServerErrorHttpException('Failed to update the object for unknown reason.');
         }
