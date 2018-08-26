@@ -8,6 +8,7 @@ use yii\db\ActiveRecord;
 use yii\web\ServerErrorHttpException;
 use yii\rest\Action;
 use yii\helpers\FileHelper;
+use common\helpers\Util;
 
 class UpdateAction extends Action
 {
@@ -51,6 +52,9 @@ class UpdateAction extends Action
             throw new ServerErrorHttpException('Failed to update the object for unknown reason.');
         }
 
+        if($model->avatar && (false === strpos($model->avatar, 'http') && false === strpos($model->avatar, 'https'))){
+            $model->avatar = Util::getFileRightUrl($model->avatar);
+        }
         return $model;
     }
 }

@@ -185,4 +185,21 @@ class Util
         }
         return $thumbFullName;
     }
+
+    public static function getFileRightUrl($file)
+    {
+        if( empty($file) ) return '';
+        if ( strpos($file, 'http') === 0 || strpos($file, 'https') === 0){
+            return $file;
+        }
+
+        if( strpos($file, '/') === 0 ){
+            $file = substr($file,1);
+        }
+        $hostUrl = Yii::$app->getRequest()->getHostInfo();
+        if(isset(Yii::$app->params['staticCdn']) && !empty(Yii::$app->params['staticCdn'])){
+            $hostUrl = Yii::$app->params['staticCdn'];
+        }
+        return rtrim($hostUrl, '/').'/'.$file;
+    }
 }
