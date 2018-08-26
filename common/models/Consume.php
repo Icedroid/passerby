@@ -29,10 +29,10 @@ class Consume extends \yii\db\ActiveRecord
     ];
 
     public static $typePrefix = [
-        self::TYPE_CHARGE=>'+',
+        self::TYPE_CHARGE=>'',
         self::TYPE_WITHDRAWAL=>'-',
         self::TYPE_SEND_GIFT=>'-',
-        self::TYPE_ACCEPT_GIFT=>'+',
+        self::TYPE_ACCEPT_GIFT=>'',
     ];
 
     /**
