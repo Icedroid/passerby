@@ -9,6 +9,7 @@
 namespace api\modules\v1\models;
 
 use Yii;
+use common\helpers\Util;
 
 class HelpComment extends \common\models\HelpComment
 {
@@ -25,7 +26,7 @@ class HelpComment extends \common\models\HelpComment
             return $model->user->nickname;
         };
         $fields['avatar'] = function ($model) {
-            return $model->user->avatar;
+            return Util::getFileRightUrl($model->user->avatar);
         };
         $fields['job'] = function ($model) {
             return $model->user->job;

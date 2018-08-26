@@ -12,6 +12,7 @@ use Yii;
 use common\models\User;
 use yii\helpers\ArrayHelper;
 use yii\log\Logger;
+use common\helpers\Util;
 
 class UserStar extends \common\models\UserStar
 {
@@ -28,7 +29,7 @@ class UserStar extends \common\models\UserStar
             return $model->starUser->nickname;
         };
         $fields['avatar'] = function ($model) {
-            return $model->starUser->avatar;
+            return Util::getFileRightUrl($model->starUser->avatar);
         };
         $fields['gender'] = function ($model) {
             return $model->starUser->gender;

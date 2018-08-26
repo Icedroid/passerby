@@ -9,6 +9,7 @@
 namespace api\modules\v1\models;
 
 use Yii;
+use common\helpers\Util;
 
 class Complain extends \common\models\Complain
 {
@@ -22,7 +23,7 @@ class Complain extends \common\models\Complain
             return $model->user->nickname;
         };
         $fields['avatar'] = function ($model) {
-            return $model->user->avatar;
+            return Util::getFileRightUrl($model->user->avatar);
         };
         return $fields;
     }

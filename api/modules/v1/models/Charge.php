@@ -25,7 +25,7 @@ class Charge extends \common\models\Charge
 //            return $model->user->nickname;
 //        };
 //        $fields['avatar'] = function ($model) {
-//            return $model->user->avatar;
+//           return Util::getFileRightUrl($model->user->avatar);
 //        };
         return $fields;
     }

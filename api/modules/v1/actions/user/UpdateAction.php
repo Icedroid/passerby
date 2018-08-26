@@ -52,9 +52,7 @@ class UpdateAction extends Action
             throw new ServerErrorHttpException('Failed to update the object for unknown reason.');
         }
 
-        if($model->avatar && (false === strpos($model->avatar, 'http') && false === strpos($model->avatar, 'https'))){
-            $model->avatar = Util::getFileRightUrl($model->avatar);
-        }
+        $model->avatar = Util::getFileRightUrl($model->avatar);
         return $model;
     }
 }
