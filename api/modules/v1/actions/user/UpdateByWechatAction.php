@@ -53,7 +53,7 @@ class UpdateByWechatAction extends Action
 
         $qlcoudim = Yii::$app->qcloudim->client;
         $data = [
-            "Identifier" => strval($this->getId()),
+            "Identifier" => strval($model->getId()),
             "Nick" => $model->nickname,
             "FaceUrl" => $model->avatar,
         ];
